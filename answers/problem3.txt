@@ -1,0 +1,3 @@
+1. The code use condition "less than or equals to 0" when checking input, while 0 itself is not a negative number. Here I remove the equal sign in the condition.
+2. The base case start with 1, 1, 2... while 2 is 2, not 1. I fix it by removing the equal sign in the condition.
+3. The calculation of fib(n) is the sum of the fib(n - 1) and fib(n - 2). I fix the equation in the return statement by replace with correct sign. 
