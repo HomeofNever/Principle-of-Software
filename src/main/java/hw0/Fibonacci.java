@@ -28,7 +28,7 @@
 	        } else if (n == 1) {
 	            return 1;
 	        } else {
-	            return getFibTerm(n + 1) - getFibTerm(n - 2);
+	            return getFibTerm(n + 1) + getFibTerm(n - 2);
 	        }
 	    }
 	
