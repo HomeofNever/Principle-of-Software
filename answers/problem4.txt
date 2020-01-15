@@ -1,0 +1,3 @@
+1. The variable in constructor is malformed: it assigned itself to itself. They should accept the input and assign to the variable in class.
+	The accessors does not return desired attribute of the class: they should return the value stored in the class.
+2. The second one is better, since each time getVolumn method is called, the time complexity is O(1), though it add an extra step to add and remove method. The overall time complexity of add and remove between these two method is still the same since add/minus volumn action is O(1) as well, while getVolumn method decrease from O(n) to O(1).
