@@ -20,8 +20,8 @@ public class Ball {
      * @param color the color of the new ball object
      */
     public Ball(double volume, Color color) {
-        volume = volume;
-        color = color;
+        this.volume = volume;
+        this.color = color;
     }
     
     /**

@@ -3,6 +3,7 @@
  */
 package hw0;
 
+import java.awt.*;
 import java.lang.Iterable;
 import java.util.Set;
 import java.util.LinkedHashSet;
@@ -54,7 +55,7 @@ public class BallContainer implements Iterable<Ball> {
      */
     public boolean add(Ball b) {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        return this.contents.add(b);
     }
 
     /**
@@ -70,7 +71,7 @@ public class BallContainer implements Iterable<Ball> {
      */
     public boolean remove(Ball b) {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        return this.contents.remove(b);
     }
 
     /**
@@ -80,7 +81,13 @@ public class BallContainer implements Iterable<Ball> {
      */
     public double getVolume() {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+       double v = 0.0;
+       Iterator<Ball> b = this.iterator();
+       while (b.hasNext()) {
+           v += b.next().getVolume();
+       }
+
+       return v;
     }
 
     /**
@@ -89,7 +96,7 @@ public class BallContainer implements Iterable<Ball> {
      */
     public int size() {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        return this.contents.size();
     }
     
     /**
@@ -97,8 +104,13 @@ public class BallContainer implements Iterable<Ball> {
      * @return the number of different colors for the balls in this container
      */
     public int differentColors() {
-        // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        Set<Color> c = new LinkedHashSet<Color>();
+        Iterator<Ball> b = this.iterator();
+        while (b.hasNext()) {
+            c.add(b.next().getColor());
+        }
+
+        return c.size();
     }
     
     /**
@@ -109,7 +121,19 @@ public class BallContainer implements Iterable<Ball> {
      */
     public boolean areSameColor() {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        if (this.size() == 0) {
+            return true;
+        } else {
+            Iterator<Ball> b = this.iterator();
+            Color c = b.next().getColor();
+            while (b.hasNext()) {
+                if (c != b.next().getColor()) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 
     /**
@@ -117,7 +141,7 @@ public class BallContainer implements Iterable<Ball> {
      */
     public void clear() {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        this.contents.clear();
     }
 
     /**
@@ -129,7 +153,7 @@ public class BallContainer implements Iterable<Ball> {
      */
     public boolean contains(Ball b) {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        return this.contents.contains(b);
     }
 
 }
