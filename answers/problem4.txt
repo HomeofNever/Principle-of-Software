@@ -1,3 +1,11 @@
-1. The variable in constructor is malformed: it assigned itself to itself. They should accept the input and assign to the variable in class.
-	The accessors does not return desired attribute of the class: they should return the value stored in the class.
-2. The second one is better, since each time getVolumn method is called, the time complexity is O(1), though it add an extra step to add and remove method. The overall time complexity of add and remove between these two method is still the same since add/minus volumn action is O(1) as well, while getVolumn method decrease from O(n) to O(1).
+1. 
+	1） The variable in constructor is malformed: it assigned itself to itself. They should accept the input and assign to the variable in class. 
+	2） The accessors does not return desired attributes of the class: they should return the value stored in the class.
+2. 
+	The second one is better, since each time getVolumn method is called, the time complexity is O(1), though it add an extra step to add and remove method. The overall time complexity of add and remove between these two method is still the same since add/minus volumn action is O(1) as well, while getVolumn method decrease from O(n) to O(1). While the second method does have disadvantage that we need to modify add/remove method when implementing this approach. The first one keep each function more indenpendent.
+3. 
+	1) We may add an private TreeSet variable in Box Class so that each time we add/remove a ball, we may add them both in TreeSet as well as in the BallContrainer. We will have a sorted Set each time we add it, so we could simply return the iterator of the TreeSet
+	2) We may first, copy the Set from BallContrainer into an ArrayList in the function, and then sort it by implementing the comparactor. At last, we return the iterator of that sorted ArrayList
+4. 
+	I think the first one is better since we don't need to waste our time copying the Ball and sorted it each time we want the iterator. The time complexity of first method is O(log(n)) for add/remove, and O(1) for the function itself. Though for the second method we have O(1) for both add and remove, we will have O(n^2) for copying and sorting the List. The second method, at the same time, won't touch add/remove method and leave it free of dependency.
+
