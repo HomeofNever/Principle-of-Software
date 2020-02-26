@@ -66,8 +66,15 @@ public final class RatPoly {
      *          a "0" polynomial.
      */
     public RatPoly(int c, int e) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly constructor is not yet implemented");    	
+        if (c == 0) {
+            coeffs = new RatNum[0];
+            degree = 0;
+        } else {
+            coeffs = new RatNum[e];
+            coeffs[e] = new RatNum(c);
+            degree = e;
+        }
+        checkRep();
     }
 
     
@@ -91,8 +98,7 @@ public final class RatPoly {
      *         "0".
      */
     public int degree() {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.degree() is not yet implemented");    	
+        return this.degree;
     }
 
     /**
@@ -104,8 +110,11 @@ public final class RatPoly {
      *         "0" if this is "0" || pow < 0 || pow >= coeffs.size 
      */
     public RatNum getCoeff(int pow) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.getCoeff() is not yet implemented");
+       if (pow > coeffs.length - 1) {
+           return RatNum.ZERO;
+       } else {
+           return coeffs[pow];
+       }
     }
 
     /**
@@ -114,8 +123,12 @@ public final class RatPoly {
      * @return true if and only if this has some coefficient = "NaN".
      */
     public boolean isNaN() {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.isNaN() is not yet implemented");    	
+        for (RatNum coeff : coeffs) {
+            if (coeff.isNaN())
+                return false;
+        }
+
+        return true;
     }
 
         
@@ -130,8 +143,9 @@ public final class RatPoly {
      *          
      */
     private static void scaleCoeff(RatNum[] arr, RatNum scalar) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.scaleCoeff() is not yet implemented");
+       for (int i = 0; i < arr.length; i++) {
+           arr[i] = arr[i].mul(scalar);
+       }
     }
 
 
@@ -142,8 +156,10 @@ public final class RatPoly {
      *         such that r.isNaN()
      */
     public RatPoly negate() {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly->negate() is not yet implemented");
+       if (isNaN())
+           return NaN;
+
+       return ZERO.sub(this);
     }
 
     /**
@@ -155,8 +171,10 @@ public final class RatPoly {
      *         p.isNaN(), returns some r such that r.isNaN()
      */
     public RatPoly add(RatPoly p) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.add() is not yet implemented");
+        if (isNaN() || p.isNaN())
+            return NaN;
+
+
     }
     
     /**
