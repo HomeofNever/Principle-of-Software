@@ -307,20 +307,24 @@ public final class RatPoly {
      * The derivative of a polynomial is the sum of the derivative of each term.
      */
     public RatPoly differentiate() {
-        throw new RuntimeException();
-//        if (isNaN())
-//            return NaN;
-//
-//        RatNum[] new_coeffs = new RatNum[max_degree];
-//
-//        for (int i = 0; i < max_degree; i++) {
-//            if (p.getCoeff(i).equals(RatNum.ZERO)) {
-//                return NaN;
-//            }
-//            new_coeffs[i] = getCoeff(i).div(p.getCoeff(i));
-//        }
-//
-//        return new RatPoly(new_coeffs);
+        if (isNaN())
+            return NaN;
+
+        if (this.degree == 0)
+            return ZERO;
+
+        RatNum[] new_coeffs = new RatNum[degree - 1];
+        new_coeffs[0] = RatNum.ZERO;
+
+        for (int i = 1; i < degree - 1; i++) {
+            if (!getCoeff(i).equals(RatNum.ZERO)) {
+                new_coeffs[i] = getCoeff(i+1).mul(new RatNum(i+1));
+            } else {
+                new_coeffs[i] = RatNum.ZERO;
+            }
+        }
+
+        return new RatPoly(new_coeffs);
     }
 
     /**
@@ -340,8 +344,19 @@ public final class RatPoly {
      * each term plus some constant.
      */
     public RatPoly antiDifferentiate(RatNum integrationConstant) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException();
+        if (isNaN())
+            return NaN;
+        if (equals(ZERO))
+            return new RatPoly(new RatNum[] {integrationConstant});
+
+        RatNum[] new_coeffs = new RatNum[degree + 1];
+        new_coeffs[0] = integrationConstant;
+
+        for (int i = 0; i < degree; i++) {
+            new_coeffs[i + 1] = getCoeff(i).div(new RatNum(i + 1));
+        }
+
+        return new RatPoly(new_coeffs);
     }
 
     /**
@@ -361,8 +376,12 @@ public final class RatPoly {
      *         Double.NaN.
      */
     public double integrate(double lowerBound, double upperBound) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.integrate() is not yet implemented");
+        if (isNaN() || Double.isNaN(lowerBound) || Double.isNaN(upperBound))
+            return Double.NaN;
+
+        RatPoly anti = antiDifferentiate(RatNum.ZERO);
+
+        return anti.eval(upperBound) - anti.eval(lowerBound);
     }
 
     
