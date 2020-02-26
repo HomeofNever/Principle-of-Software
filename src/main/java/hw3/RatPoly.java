@@ -70,7 +70,10 @@ public final class RatPoly {
             coeffs = new RatNum[0];
             degree = 0;
         } else {
-            coeffs = new RatNum[e];
+            coeffs = new RatNum[e + 1];
+            for (int i = 0; i < e; i++) {
+                coeffs[i] = RatNum.ZERO;
+            }
             coeffs[e] = new RatNum(c);
             degree = e;
         }
@@ -110,7 +113,7 @@ public final class RatPoly {
      *         "0" if this is "0" || pow < 0 || pow >= coeffs.size 
      */
     public RatNum getCoeff(int pow) {
-       if (pow > coeffs.length - 1) {
+       if (pow > coeffs.length - 1 || pow < 0) {
            return RatNum.ZERO;
        } else {
            return coeffs[pow];
@@ -125,10 +128,10 @@ public final class RatPoly {
     public boolean isNaN() {
         for (RatNum coeff : coeffs) {
             if (coeff.isNaN())
-                return false;
+                return true;
         }
 
-        return true;
+        return false;
     }
 
         
@@ -173,10 +176,20 @@ public final class RatPoly {
     public RatPoly add(RatPoly p) {
         if (isNaN() || p.isNaN())
             return NaN;
+        if ((!this.equals(ZERO)) || (!p.equals(ZERO))) {
+            int max_degree = Math.max(p.degree, degree);
+            RatNum[] new_coeffs = new RatNum[max_degree + 1];
 
+            for (int i = 0; i <= max_degree; i++) {
+                new_coeffs[i] = getCoeff(i).add(p.getCoeff(i));
+            }
 
+            return new RatPoly(new_coeffs);
+        } else {
+            return ZERO;
+        }
     }
-    
+
     /**
      * Subtraction operation.
      *
@@ -186,8 +199,21 @@ public final class RatPoly {
      *         p.isNaN(), returns some r such that r.isNaN()
      */
     public RatPoly sub(RatPoly p) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly->sub() is not yet implemented");
+        if (isNaN() || p.isNaN())
+            return NaN;
+
+        if ((!this.equals(ZERO)) || (!p.equals(ZERO))) {
+            int max_degree = Math.max(p.degree, degree);
+            RatNum[] new_coeffs = new RatNum[max_degree + 1];
+
+            for (int i = 0; i <= max_degree; i++) {
+                new_coeffs[i] = getCoeff(i).sub(p.getCoeff(i));
+            }
+
+            return new RatPoly(new_coeffs);
+        } else {
+            return ZERO;
+        }
     }
 
     /**
@@ -199,8 +225,21 @@ public final class RatPoly {
      *         p.isNaN(), returns some r such that r.isNaN()
      */
     public RatPoly mul(RatPoly p) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly->mul() is not yet implemented");
+        if (isNaN() || p.isNaN())
+            return NaN;
+
+        if ((!this.equals(ZERO)) && (!p.equals(ZERO))) {
+            int max_degree = Math.max(p.degree, degree);
+            RatNum[] new_coeffs = new RatNum[max_degree + 1];
+
+            for (int i = 0; i <= max_degree; i++) {
+                new_coeffs[i] = getCoeff(i).mul(p.getCoeff(i));
+            }
+
+            return new RatPoly(new_coeffs);
+        } else {
+            return ZERO;
+        }
     }
 
     /**
@@ -215,8 +254,21 @@ public final class RatPoly {
      *         return "0" polynomial if p.degree > this.degree
      */
     public RatPoly div(RatPoly p) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly->div() is not yet implemented");
+        if (isNaN() || p.isNaN())
+            return NaN;
+        if (p.degree > this.degree || this.equals(ZERO))
+            return ZERO;
+        if (p.equals(ZERO))
+            return NaN;
+
+        RatNum[] new_coeffs = new RatNum[degree];
+
+        for (int i = 0; i <= p.degree; i++) {
+            if (!p.getCoeff(i).equals(RatNum.ZERO))
+                new_coeffs[i] = getCoeff(i).div(p.getCoeff(i));
+        }
+
+        return new RatPoly(new_coeffs);
     }
 
 
@@ -230,8 +282,17 @@ public final class RatPoly {
      *         (this.isNaN() == true), return Double.NaN
      */
     public double eval(double d) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.eval() is not yet implemented");
+        if (isNaN())
+            return Double.NaN;
+
+        double sum = getCoeff(0).doubleValue();
+        if (coeffs.length != 0 && d != 0) {
+            for (int i = 1; i <= degree; i++) {
+                    sum += getCoeff(i).doubleValue() * Math.pow(d, degree);
+            }
+        }
+
+        return sum;
     }  
     
     
@@ -246,8 +307,20 @@ public final class RatPoly {
      * The derivative of a polynomial is the sum of the derivative of each term.
      */
     public RatPoly differentiate() {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.differentiate() is not yet implemented");
+        throw new RuntimeException();
+//        if (isNaN())
+//            return NaN;
+//
+//        RatNum[] new_coeffs = new RatNum[max_degree];
+//
+//        for (int i = 0; i < max_degree; i++) {
+//            if (p.getCoeff(i).equals(RatNum.ZERO)) {
+//                return NaN;
+//            }
+//            new_coeffs[i] = getCoeff(i).div(p.getCoeff(i));
+//        }
+//
+//        return new RatPoly(new_coeffs);
     }
 
     /**
@@ -268,8 +341,7 @@ public final class RatPoly {
      */
     public RatPoly antiDifferentiate(RatNum integrationConstant) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException(
-                "RatPoly->antiDifferentiate() unimplemented!");
+        throw new RuntimeException();
     }
 
     /**
