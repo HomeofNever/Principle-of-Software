@@ -184,6 +184,18 @@ public final class RatPoly {
                 new_coeffs[i] = getCoeff(i).add(p.getCoeff(i));
             }
 
+            // If we have all zeros, return zero
+            boolean isZero = true;
+            for (RatNum i: new_coeffs) {
+                if (!i.equals(RatNum.ZERO)) {
+                    isZero = false;
+                    break;
+                }
+            }
+
+            if (isZero)
+                return ZERO;
+
             return new RatPoly(new_coeffs);
         } else {
             return ZERO;
@@ -229,11 +241,23 @@ public final class RatPoly {
             return NaN;
 
         if ((!this.equals(ZERO)) && (!p.equals(ZERO))) {
-            int max_degree = Math.max(p.degree, degree);
-            RatNum[] new_coeffs = new RatNum[max_degree + 1];
+            int new_degree = degree + p.degree;
+            RatNum[] new_coeffs = new RatNum[new_degree + 1];
 
-            for (int i = 0; i <= max_degree; i++) {
-                new_coeffs[i] = getCoeff(i).mul(p.getCoeff(i));
+            // Init
+            for (int i = 0; i <= new_degree; i++) {
+                new_coeffs[i] = RatNum.ZERO;
+            }
+
+            for (int i = 0; i <= degree; i++) {
+                // Only times non-zero degree
+                if (!getCoeff(i).equals(RatNum.ZERO)) {
+                    for (int j = 0; j <= p.degree; j++) {
+                        if (!p.getCoeff(j).equals(RatNum.ZERO)) {
+                            new_coeffs[i + j] = new_coeffs[i + j].add(getCoeff(i).mul(p.getCoeff(j)));
+                        }
+                    }
+                }
             }
 
             return new RatPoly(new_coeffs);
@@ -346,6 +370,8 @@ public final class RatPoly {
     public RatPoly antiDifferentiate(RatNum integrationConstant) {
         if (isNaN())
             return NaN;
+        if (integrationConstant.equals(RatNum.ZERO) && equals(ZERO))
+            return ZERO;
         if (equals(ZERO))
             return new RatPoly(new RatNum[] {integrationConstant});
 
