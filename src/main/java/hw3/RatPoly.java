@@ -337,14 +337,14 @@ public final class RatPoly {
         if (this.degree == 0)
             return ZERO;
 
-        RatNum[] new_coeffs = new RatNum[degree - 1];
-        new_coeffs[0] = RatNum.ZERO;
+        int new_degree = degree - 1;
+        RatNum[] new_coeffs = new RatNum[new_degree + 1];
 
-        for (int i = 1; i < degree - 1; i++) {
+        for (int i = 1; i <= degree; i++) {
             if (!getCoeff(i).equals(RatNum.ZERO)) {
-                new_coeffs[i] = getCoeff(i+1).mul(new RatNum(i+1));
+                new_coeffs[i - 1] = getCoeff(i).mul(new RatNum(i));
             } else {
-                new_coeffs[i] = RatNum.ZERO;
+                new_coeffs[i - 1] = RatNum.ZERO;
             }
         }
 
