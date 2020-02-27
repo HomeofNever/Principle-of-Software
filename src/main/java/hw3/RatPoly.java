@@ -375,10 +375,15 @@ public final class RatPoly {
         if (equals(ZERO))
             return new RatPoly(new RatNum[] {integrationConstant});
 
-        RatNum[] new_coeffs = new RatNum[degree + 1];
-        new_coeffs[0] = integrationConstant;
+        int new_degree = degree + 1;
+        RatNum[] new_coeffs = new RatNum[new_degree + 1];
 
-        for (int i = 0; i < degree; i++) {
+        // Init
+        new_coeffs[0] = integrationConstant;
+        for (int i = 1; i <= new_degree; i++)
+            new_coeffs[i] = RatNum.ZERO;
+
+        for (int i = 0; i <= degree; i++) {
             new_coeffs[i + 1] = getCoeff(i).div(new RatNum(i + 1));
         }
 
