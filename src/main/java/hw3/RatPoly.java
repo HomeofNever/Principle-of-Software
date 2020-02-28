@@ -312,7 +312,7 @@ public final class RatPoly {
         double sum = getCoeff(0).doubleValue();
         if (coeffs.length != 0 && d != 0) {
             for (int i = 1; i <= degree; i++) {
-                    sum += getCoeff(i).doubleValue() * Math.pow(d, degree);
+                    sum += getCoeff(i).doubleValue() * Math.pow(d, i);
             }
         }
 
