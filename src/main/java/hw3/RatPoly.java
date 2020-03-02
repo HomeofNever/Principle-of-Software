@@ -174,32 +174,7 @@ public final class RatPoly {
      *         p.isNaN(), returns some r such that r.isNaN()
      */
     public RatPoly add(RatPoly p) {
-        if (isNaN() || p.isNaN())
-            return NaN;
-        if ((!this.equals(ZERO)) || (!p.equals(ZERO))) {
-            int max_degree = Math.max(p.degree, degree);
-            RatNum[] new_coeffs = new RatNum[max_degree + 1];
-
-            for (int i = 0; i <= max_degree; i++) {
-                new_coeffs[i] = getCoeff(i).add(p.getCoeff(i));
-            }
-
-            // If we have all zeros, return zero
-            boolean isZero = true;
-            for (RatNum i: new_coeffs) {
-                if (!i.equals(RatNum.ZERO)) {
-                    isZero = false;
-                    break;
-                }
-            }
-
-            if (isZero)
-                return ZERO;
-
-            return new RatPoly(new_coeffs);
-        } else {
-            return ZERO;
-        }
+        return sub(p.negate());
     }
 
     /**
@@ -214,18 +189,31 @@ public final class RatPoly {
         if (isNaN() || p.isNaN())
             return NaN;
 
-        if ((!this.equals(ZERO)) || (!p.equals(ZERO))) {
-            int max_degree = Math.max(p.degree, degree);
-            RatNum[] new_coeffs = new RatNum[max_degree + 1];
+        int max_degree = Math.max(p.degree, degree);
+        RatNum[] new_coeffs = new RatNum[max_degree + 1];
 
-            for (int i = 0; i <= max_degree; i++) {
-                new_coeffs[i] = getCoeff(i).sub(p.getCoeff(i));
-            }
-
-            return new RatPoly(new_coeffs);
-        } else {
-            return ZERO;
+        for (int i = 0; i <= max_degree; i++) {
+            new_coeffs[i] = getCoeff(i).sub(p.getCoeff(i));
         }
+
+        // Find the location of first non-zero
+        int loc = -1;
+        for (int i = max_degree; i >= 0; i--) {
+            if (!new_coeffs[i].equals(RatNum.ZERO)) {
+                loc = i;
+                break;
+            }
+        }
+
+        if (loc == -1)
+            return ZERO;
+        else if (loc != max_degree) {
+            // Remove front zeros
+            RatNum[] clear_coeff = new RatNum[loc + 1];
+            System.arraycopy(new_coeffs, 0, clear_coeff, 0, loc + 1);
+            return new RatPoly(clear_coeff);
+        } else
+            return new RatPoly(new_coeffs);
     }
 
     /**
@@ -278,21 +266,33 @@ public final class RatPoly {
      *         return "0" polynomial if p.degree > this.degree
      */
     public RatPoly div(RatPoly p) {
-        if (isNaN() || p.isNaN())
+        if (isNaN() || p.isNaN() || p.equals(ZERO))
             return NaN;
         if (p.degree > this.degree || this.equals(ZERO))
             return ZERO;
-        if (p.equals(ZERO))
-            return NaN;
 
-        RatNum[] new_coeffs = new RatNum[degree];
+        RatPoly product = new RatPoly();
+        RatPoly remainder = new RatPoly(this.coeffs);
 
-        for (int i = 0; i <= p.degree; i++) {
-            if (!p.getCoeff(i).equals(RatNum.ZERO))
-                new_coeffs[i] = getCoeff(i).div(p.getCoeff(i));
+        while ((!remainder.equals(ZERO)) && remainder.degree >= p.degree) {
+            // Make the divider the same degree as the remainder
+            int scale = remainder.degree - p.degree;
+            RatNum r = remainder.getCoeff(remainder.degree).div(p.getCoeff(p.degree));
+            // Create new Poly
+            RatNum[] rn = new RatNum[scale + 1];
+            for (int i = 0; i <= scale; i++) {
+                rn[i] = RatNum.ZERO;
+            }
+            rn[scale] = r;
+
+            RatPoly temp_p = new RatPoly(rn);
+
+            product = product.add(temp_p);
+
+            remainder = remainder.sub(temp_p.mul(p));
         }
 
-        return new RatPoly(new_coeffs);
+        return product;
     }
 
 
