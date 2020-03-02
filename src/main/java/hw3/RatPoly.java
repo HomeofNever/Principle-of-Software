@@ -189,6 +189,7 @@ public final class RatPoly {
         if (isNaN() || p.isNaN())
             return NaN;
 
+        // degree should follow the bigger one
         int max_degree = Math.max(p.degree, degree);
         RatNum[] new_coeffs = new RatNum[max_degree + 1];
 
@@ -232,7 +233,7 @@ public final class RatPoly {
             int new_degree = degree + p.degree;
             RatNum[] new_coeffs = new RatNum[new_degree + 1];
 
-            // Init
+            // Init Array
             for (int i = 0; i <= new_degree; i++) {
                 new_coeffs[i] = RatNum.ZERO;
             }
@@ -310,6 +311,7 @@ public final class RatPoly {
             return Double.NaN;
 
         double sum = getCoeff(0).doubleValue();
+        // Only apply when coeff is non-zero
         if (coeffs.length != 0 && d != 0) {
             for (int i = 1; i <= degree; i++) {
                     sum += getCoeff(i).doubleValue() * Math.pow(d, i);
@@ -340,6 +342,7 @@ public final class RatPoly {
         int new_degree = degree - 1;
         RatNum[] new_coeffs = new RatNum[new_degree + 1];
 
+        // For 
         for (int i = 1; i <= degree; i++) {
             if (!getCoeff(i).equals(RatNum.ZERO)) {
                 new_coeffs[i - 1] = getCoeff(i).mul(new RatNum(i));
@@ -383,6 +386,7 @@ public final class RatPoly {
         for (int i = 1; i <= new_degree; i++)
             new_coeffs[i] = RatNum.ZERO;
 
+        // The i will go to i+1 degree
         for (int i = 0; i <= degree; i++) {
             new_coeffs[i + 1] = getCoeff(i).div(new RatNum(i + 1));
         }

@@ -35,7 +35,7 @@
 
 ## Problem 2
 
-We assume the our own object is vaild before we can perform the action
+`checkrep()`[check rap invariant] is called in every constructor, which means that `this` object will only be created when it is vaild, so `this` won't be null at any time.
 
 ## Problem 3
 
@@ -44,8 +44,8 @@ We assume the our own object is vaild before we can perform the action
 
 ## Problem 4
 
-The @modified is none in all methods, so the method should not change the fields.
+The @modified is none in all these methods, so the method should not change the object fields.
 
 ## Problem 5
 
-Since there is no mutator in the class, the only way rep invariant can be violated is when the object is created, which is done by the constructores.
+Since there is no mutator in the class, the only way rep invariant can be violated is when the object is created, which is done by the constructors.

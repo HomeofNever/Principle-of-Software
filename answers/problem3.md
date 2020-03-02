@@ -1,28 +1,54 @@
 # Problem 3
 
-Write a pseudocode algorithm for division. State the loop invariant for the main loop and prove partial correctness. Write your answer in the file answers/problem3.pdf
-
-When writing pseudocode use symbols +,-,* and / to express rational number and polynomial arithmetic. You may also use u[i] to retrieve the coefficient at power i of polynomial u, as well as c*x^i to denote the single-term polynomial of degree i and coefficient c. Important: write your pseudocode, invariants and proofs first, then write the Java code. Going backwards will be harder.
-
-Use the following definition of polynomial division:
-
-    Given two polynomials u and v, with v != "0", we can divide u by v to obtain a quotient polynomial q and a remainder polynomial r satisfying the condition u = "q * v + r", where the degree of r is strictly less than the degree of v, the degree of q is no greater than the degree of u, and r and q have no negative exponents.
-
-    For the purposes of this class, the operation "u / v" returns q as defined above.
-
-    The following are examples of division's behavior:
-
-        (x^3-2*x+3) / (3*x^2) = 1/3*x (with r = "-2*x+3").
-        (x^2+2*x+15) / (2*x^3) = 0 (with r = "x^2+2*x+15").
-        (x^3+x-1) / (x+1) = x^2-x+2 (with r = "-3").
-
-    Note that this truncating behavior is similar to the behavior of integer division on computers.
-
 ## Pseudocode
 
-let u, v as polynomials, goal u/v
+- let `u, v` as polynomials; goal `u / v`
+- define `ZERO` as "0" polynomials
+- define `Poly()` create polynomial(`Poly`) from `double[]`
 
 ```
+Poly q = ZERO
+Poly r = copy of u
 
+// Precondition: v != 0 && u.degree >= v.degree
+while (r != ZERO && r.degree > v.degree):
+    // LI: (u = q * v + r) && r >= ZERO
 
+    int scale = r.degree - v.degree
+    double frac = r[r.degree] / v[v.degree]
+
+    double[] rn = new int[scale + 1]
+    Fill rn with 0
+    rn[scale] = frac
+
+    q += Poly(rn)
+
+    r -= Poly(rn) * v
+    // Exit Condition: r == ZERO || r.degree <= v.degree
+
+// Postcondition: u / v == q + r
+
+return q;
 ```
+
+## Prove
+
+### Base Case
+
+`q = 0 => u = r + 0 * v => u = r`
+
+If `u` is zero, then the loop won't run and postcondition still hold as `0 / v = 0 = u`
+
+### Induction
+
+Assume LI holds for iteration `k`, prove it true at iteration `k + 1`
+
+During iteration, `r` will be divided by `v`, and `r.degree - 1`
+
+If `k` holds LI, then at `k + 1` => `u = v * q + r`
+
+Since `r` must be larger than `ZERO` at iteration `k` (or loop exited), and `r` will decrease toward `ZERO`, so `r>= ZERO` is satisfied.
+
+### Exit the loop
+
+`r` will finally go to `ZERO` or `r.degree <= v.degree`, so `u / v == q + r`, at decreasing function `D = r`
