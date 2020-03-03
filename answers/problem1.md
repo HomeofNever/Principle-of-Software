@@ -6,6 +6,7 @@
 
   - `RatNum(int n)`
   - `RatNum(int n, int d)`
+  - `valueOf(String ratStr)`
 
 - observer
 
@@ -20,7 +21,6 @@
   - `hashCode()`
   - `equals(/*@Nullable*/ Object obj)`
   - `toString()`
-  - `valueOf(String ratStr)`
 
 - producer
 
