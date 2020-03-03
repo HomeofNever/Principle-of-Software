@@ -11,7 +11,7 @@ Poly q = ZERO
 Poly r = copy of u
 
 // Precondition: v != 0 && u.degree >= v.degree
-while (r != ZERO && r.degree > v.degree):
+while (r != ZERO && r.degree => v.degree):
     // LI: (u = q * v + r) && r >= ZERO
 
     int scale = r.degree - v.degree
@@ -24,7 +24,7 @@ while (r != ZERO && r.degree > v.degree):
     q += Poly(rn)
 
     r -= Poly(rn) * v
-    // Exit Condition: r == ZERO || r.degree <= v.degree
+    // Exit Condition: r == ZERO || r.degree < v.degree
 
 // Postcondition: u / v == q + r
 
@@ -51,4 +51,4 @@ Since `r` must be larger than `ZERO` at iteration `k` (or loop exited), and `r` 
 
 ### Exit the loop
 
-`r` will finally go to `ZERO` or `r.degree <= v.degree`, so `u / v == q + r`, at decreasing function `D = r`
+`r` will finally go to `ZERO` or `r.degree < v.degree`, so `u / v == q + r`, at decreasing function `D = r`
