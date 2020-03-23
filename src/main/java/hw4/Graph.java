@@ -25,6 +25,24 @@ public class Graph {
     }
 
     /**
+     * Checks that the representation invariant holds (if any).
+     **/
+    // Throws a RuntimeException if the rep invariant is violated.
+    private void checkRep() throws RuntimeException {
+        if (graph == null) {
+            throw new RuntimeException("Graph cannot be null");
+        }
+
+        for (Set<Edge> s : graph.values()) {
+            for (Edge n : s) {
+                if (!graph.containsKey(n.getTo())) {
+                    throw new RuntimeException("Edge connected to non-listed node");
+                }
+            }
+        }
+    }
+
+    /**
      * add new nodes and a edge to the graph
      * @param a String represent Node which the edge starts at
      * @param b String represent Node which the edge ends at
@@ -33,6 +51,16 @@ public class Graph {
      */
     public boolean connect(String a, String b, String edgeName) {
         throw new RuntimeException("Connect not implemented");
+    }
+
+    /**
+     * add new nodes and a edge to the graph
+     * @param a String represent Node which the edge starts at
+     * @param b String represent Node which the edge ends at
+     * @return boolean true iff the edge successfully added to the graph
+     */
+    public boolean connect(String a, String b) {
+       return connect(a, b , "");
     }
 
     /**

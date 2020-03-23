@@ -39,6 +39,20 @@ public class Edge implements Comparable<Edge> {
         throw new RuntimeException("Edge constructor without label Not Implemented");
     }
 
+    /**
+     * Checks that the representation invariant holds (if any).
+     **/
+    // Throws a RuntimeException if the rep invariant is violated.
+    private void checkRep() throws RuntimeException {
+        if (from == null || to == null) {
+            throw new RuntimeException("Node cannot be null");
+        }
+
+        if (name == null) {
+            throw new RuntimeException("Label cannot be null");
+        }
+    }
+
     /** Returns the start from node
           @return source node of this edge
      */
@@ -70,6 +84,6 @@ public class Edge implements Comparable<Edge> {
      */
     @Override
     public int compareTo(Edge edge) {
-        return name.compareTo(edge.name);
+            throw new RuntimeException("CompareTo Not Implemented");
     }
 }

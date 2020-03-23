@@ -36,7 +36,8 @@ class GraphWrapper {
 
     /*
        This operation has no effect on your graph.
-       It returns an iterator which represents the list of childNode(edgeLabel) in lexicographical (alphabetical) order by node name and secondarily by edge label. childNode(edgeLabel) means there is an edge with label edgeLabel from parentNode to childNode.
+       It returns an iterator which represents the list of childNode(edgeLabel) in lexicographical (alphabetical) order by node name and secondarily by edge label.
+       childNode(edgeLabel) means there is an edge with label edgeLabel from parentNode to childNode.
        If there are multiple edges from parentNode to some childNode, there should be a separate entry for each edge.
        If there is a reflexive edge, parentNode(edgeLabel) should be in the list.
      */
