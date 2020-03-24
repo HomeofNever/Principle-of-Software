@@ -41,9 +41,7 @@ public class GraphWrapperTest {
     }
 
     public static String testIteratorAgainstSet(Iterator<String> i, Set<String> s) {
-        Iterator<String> t = s.iterator();
-        while (t.hasNext()) {
-            String test = t.next();
+        for (String test : s) {
             String ans = i.next();
             if (!test.equals(ans)) {
                 return "order does not satisfied: expected " + ans + ", got : " + test;

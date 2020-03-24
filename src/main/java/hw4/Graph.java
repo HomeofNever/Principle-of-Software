@@ -112,6 +112,7 @@ public class Graph {
      * Return a Set of edge that start from given Node a
      * @param a String represent Node where the edge start from
      * @return A list of node that start from given Node a, alphabetically ordered.
+     * e.g. Node(Label)
      *  An empty list will return if node "a" does not exist
      */
     public List<String> connectedNodes(String a) {

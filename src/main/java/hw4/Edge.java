@@ -1,6 +1,5 @@
 package hw4;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 /** <b>Edge</b> represents an <b>immutable</b> edge in the graph
