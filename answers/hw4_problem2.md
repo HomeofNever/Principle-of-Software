@@ -32,9 +32,7 @@ I have checked if the rep keep true after these condition in the test case by co
 
 ### GraphWrapper
 
-Since Graph has nearly identical test case with Graph, The strategy I use is the same, except:
-
-- I have constructed the answer/last state of the graph and use it to compare the result of Graph Wrapper
+Since Graph has nearly identical test case with Graph, The strategy I use is nearly the same, except that in order to test iterator, I create a custom method to go through the iterator so that I can compare the result with the answer set.
 
 ### Additional test
 

@@ -36,7 +36,14 @@ public class GraphWrapperTest {
        g.addNode("a");
 
         // Get Nodes
-        TreeSet<String> tree= new TreeSet<>(Set.of("a", "b", "c", "d", "e", "ad"));
+        TreeSet<String> tree= new TreeSet<>();
+        tree.add("a");
+        tree.add("b");
+        tree.add("c");
+        tree.add("d");
+        tree.add("e");
+        tree.add("ad");
+
         assertEquals("pass", testIteratorAgainstSet(g.listNodes(), tree));
     }
 
