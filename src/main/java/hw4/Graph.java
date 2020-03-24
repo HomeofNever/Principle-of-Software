@@ -104,7 +104,7 @@ public class Graph {
      */
     public Set<Edge> connectedEdge(String a) {
         if (graph.get(a) == null)
-            return Set.of();
+            return new TreeSet<>();
        return Collections.unmodifiableSet(graph.get(a));
     }
 
