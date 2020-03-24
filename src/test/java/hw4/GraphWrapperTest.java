@@ -67,6 +67,7 @@ public class GraphWrapperTest {
         TreeSet<String> b = new  TreeSet<>();
         TreeSet<String> c = new  TreeSet<>();
         TreeSet<String> ad = new  TreeSet<>();
+        TreeSet<String> empty = new TreeSet<>();
 
         a.add("a()");
         a.add("b()");
@@ -81,8 +82,8 @@ public class GraphWrapperTest {
         assertEquals("pass", testIteratorAgainstSet(g.listChildren("a"), a));
         assertEquals("pass", testIteratorAgainstSet(g.listChildren("b"), b));
         assertEquals("pass", testIteratorAgainstSet(g.listChildren("c"), c));
-        assertEquals("pass", testIteratorAgainstSet(g.listChildren("d"), Set.of()));
+        assertEquals("pass", testIteratorAgainstSet(g.listChildren("d"), empty));
         assertEquals("pass", testIteratorAgainstSet(g.listChildren("ad"), ad));
-        assertEquals("pass", testIteratorAgainstSet(g.listChildren("f"), Set.of()));
+        assertEquals("pass", testIteratorAgainstSet(g.listChildren("f"), empty));
     }
 }

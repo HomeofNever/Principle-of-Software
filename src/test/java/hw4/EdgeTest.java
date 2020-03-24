@@ -75,5 +75,11 @@ public class EdgeTest {
        // Equals
         assertEquals(0,normal.compareTo(normal_1));
         assertEquals(0,reflective.compareTo(reflective_1));
+        assertEquals(normal, normal_1);
+        assertEquals(reflective, reflective_1);
+
+        // HashCode
+        assertEquals(normal_1.hashCode(), normal.hashCode());
+        assertEquals(reflective.hashCode(), reflective_1.hashCode());
     }
 }

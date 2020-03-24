@@ -101,7 +101,6 @@ public class Edge implements Comparable<Edge> {
 
     /**
     @param o The Edge to be compared.
-     @requires none
      @return true iff this has the same attribute as o
      */
     @Override
@@ -114,6 +113,9 @@ public class Edge implements Comparable<Edge> {
                 getName().equals(edge.getName());
     }
 
+    /**
+     @return int the hashcode of edge
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getFrom(), getTo(), getName());

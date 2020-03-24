@@ -4,6 +4,8 @@
 
 The strategy when doing blackbox testing is to analysis different path the methods possibly go through.
 
+The basic idea here I do is to constructing and cross testing objects with mixed criterias.
+
 ### Edge
 
 There are several differnt kind of edges:
@@ -28,4 +30,13 @@ For graph, I have also concluded several different conditions:
 
 I have checked if the rep keep true after these condition in the test case by constructing its desired result directly and compared them with the method output
 
+### GraphWrapper
+
+Since Graph has nearly identical test case with Graph, The strategy I use is the same, except:
+
+- I have constructed the answer/last state of the graph and use it to compare the result of Graph Wrapper
+
+### Additional test
+
+I have added some test case over the `hashCode`, which is required when using Set.
 

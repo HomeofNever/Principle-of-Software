@@ -7,7 +7,7 @@
 
 ## Question 2
 
-More examples on how to test mutable class.
+More examples on how to test `mutable` class.
 
 ## Question 3
 

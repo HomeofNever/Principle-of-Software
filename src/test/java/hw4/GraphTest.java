@@ -3,6 +3,7 @@ package hw4;
 import org.junit.Test;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.Assert.*;
 
@@ -58,12 +59,28 @@ public class GraphTest {
         assertTrue(g.connect("ad", "a", "some edge"));
 
         // The graph should have be like
-        assertEquals(Set.of(ab, ad, aa, ad_1, ab_1), g.connectedEdge("a"));
-        assertEquals(Set.of(bc), g.connectedEdge("b"));
-        assertEquals(Set.of(cd),g.connectedEdge("c"));
-        assertEquals(Set.of(ada, ada_1), g.connectedEdge("ad"));
-        assertEquals(Set.of(), g.connectedEdge("d"));
-        assertEquals(Set.of(), g.connectedEdge("f"));
+        TreeSet<Edge> empty = new TreeSet<>();
+        TreeSet<Edge> a = new TreeSet<>();
+        TreeSet<Edge> b = new TreeSet<>();
+        TreeSet<Edge> c = new TreeSet<>();
+        TreeSet<Edge> s_ad = new TreeSet<>();
+
+        a.add(ab);
+        a.add(ad);
+        a.add(aa);
+        a.add(ad_1);
+        a.add(ab_1);
+        b.add(bc);
+        c.add(cd);
+        s_ad.add(ada);
+        s_ad.add(ada_1);
+
+        assertEquals(a, g.connectedEdge("a"));
+        assertEquals(b, g.connectedEdge("b"));
+        assertEquals(c,g.connectedEdge("c"));
+        assertEquals(s_ad, g.connectedEdge("ad"));
+        assertEquals(empty, g.connectedEdge("d"));
+        assertEquals(empty, g.connectedEdge("f"));
 
         // connectedNodes will be tested in GraphWrapper
     }
