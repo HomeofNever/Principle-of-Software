@@ -45,8 +45,16 @@ public class GraphTest {
         assertTrue(g.addNode("e"));
         assertFalse(g.addNode("a"));
 
+        TreeSet<String> nodes = new TreeSet<>();
+        nodes.add("a");
+        nodes.add("b");
+        nodes.add("c");
+        nodes.add("d");
+        nodes.add("e");
+        nodes.add("ad");
+
         // Get Nodes
-        assertEquals(Set.of("a", "b", "c", "d", "e", "ad"), g.getNodes());
+        assertEquals(nodes, g.getNodes());
     }
 
     @org.junit.Test
