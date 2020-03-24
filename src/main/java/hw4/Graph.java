@@ -7,7 +7,7 @@ import java.util.*;
  * It represents a multi-bidirectional graph
  */
 public class Graph {
-    private HashMap<String, HashSet<Edge>> graph;
+    private TreeMap<String, TreeSet<Edge>> graph;
 
     // Abstraction Function:
     // Make use of adjacent list, we have a map that represent the start nodes corresponded with
@@ -21,7 +21,7 @@ public class Graph {
      * @effects Construct an empty graph
      */
     public Graph() {
-        throw new RuntimeException("Graph constructor not implemented");
+        graph = new TreeMap<>();
     }
 
     /**
@@ -34,12 +34,38 @@ public class Graph {
         }
 
         for (Set<Edge> s : graph.values()) {
+            if (s == null) {
+                throw new RuntimeException("Node with uninitialized Set");
+            }
             for (Edge n : s) {
                 if (!graph.containsKey(n.getTo())) {
                     throw new RuntimeException("Edge connected to non-listed node");
                 }
             }
         }
+    }
+
+    /**
+     * add new node to the graph
+     * @param a String represent Node to be added
+     * @return boolean true iff the edge successfully added to the graph
+     */
+    public boolean addNode(String a) {
+        if (!graph.containsKey(a)) {
+            graph.put(a, new TreeSet<>());
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * get all nodes in the graph
+     * @return Set of Strings that represent nodes
+     * An empty set will return if the graph is empty
+     */
+    public Set<String> getNodes() {
+        return Collections.unmodifiableSet(graph.keySet());
     }
 
     /**
@@ -50,7 +76,14 @@ public class Graph {
      * @return boolean true iff the edge successfully added to the graph
      */
     public boolean connect(String a, String b, String edgeName) {
-        throw new RuntimeException("Connect not implemented");
+        Edge toBeAdded = new Edge(a, b, edgeName);
+        if (graph.containsKey(a) && graph.containsKey(b)) {
+            boolean result = graph.get(a).add(toBeAdded);
+            checkRep();
+            return result;
+        }
+
+        return false;
     }
 
     /**
@@ -67,9 +100,26 @@ public class Graph {
      * Return a Set of edge that start from given Node a
      * @param a String represent Node where the edge start from
      * @return A set of edge that start from given Node a.
-     *  An empty  set will return if node "a" cannot be found in the graph
+     *  An empty set will return if node "a" does not exist
      */
     public Set<Edge> connectedEdge(String a) {
-        throw new RuntimeException("ConnectedEdge not implemented");
+        if (graph.get(a) == null)
+            return Set.of();
+       return Collections.unmodifiableSet(graph.get(a));
+    }
+
+    /**
+     * Return a Set of edge that start from given Node a
+     * @param a String represent Node where the edge start from
+     * @return A list of node that start from given Node a, alphabetically ordered.
+     *  An empty list will return if node "a" does not exist
+     */
+    public List<String> connectedNodes(String a) {
+        ArrayList<String> r = new ArrayList<>();
+        for (Edge i : connectedEdge(a)) {
+            r.add(i.getTo() + "(" + i.getName() + ")");
+        }
+
+        return r;
     }
 }

@@ -7,23 +7,25 @@ class GraphWrapper {
     private Graph g;
 
     public GraphWrapper() {
-        throw new RuntimeException("Graph wrapper instructor Not Implemented");
+        g = new Graph();
     }
 
     /*
-     Adds a node represented by the string nodeData to your graph. If an identical node already exists in the graph, the output of addNode is not defined, that is, it is left at your discretion.
+     Adds a node represented by the string nodeData to your graph.
+     If an identical node already exists in the graph, the output of addNode is not defined, that is, it is left at your discretion.
      */
     public void addNode(String nodeData) {
-        throw new RuntimeException("add Node Not Implemented");
+        g.addNode(nodeData);
     }
 
     /*
         Creates an edge from parentNode to childNode with label edgeLabel in your graph.
         If either of the nodes does not exist in the graph, the output of this command is not defined.
-        If an identical edge (same parent, child, and label) already exists, the output of this command is not defined either, as it is left at your discretion whether to allow identical edges in your implementation.
+        If an identical edge (same parent, child, and label) already exists,
+        the output of this command is not defined either, as it is left at your discretion whether to allow identical edges in your implementation.
      */
     public void addEdge(String parentNode, String childNode, String edgeLabel) {
-        throw new RuntimeException("getEdge Not Implemented");
+        g.connect(parentNode, childNode, edgeLabel);
     }
 
     /*
@@ -31,7 +33,7 @@ class GraphWrapper {
         It returns an iterator which represents the nodes in lexicographical (alphabetical) order.
      */
     public Iterator<String> listNodes() {
-        throw new RuntimeException("List Nodes Not Implemented");
+        return g.getNodes().iterator();
     }
 
     /*
@@ -42,6 +44,6 @@ class GraphWrapper {
        If there is a reflexive edge, parentNode(edgeLabel) should be in the list.
      */
     public Iterator<String> listChildren(String parentNode) {
-        throw new RuntimeException("listChildren Not Implemented");
+        return g.connectedNodes(parentNode).iterator();
     }
 }

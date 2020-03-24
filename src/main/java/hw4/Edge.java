@@ -1,17 +1,18 @@
 package hw4;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /** <b>Edge</b> represents an <b>immutable</b> edge in the graph
  * it set up a bridge between two node, and can be labeled with a name
- * There many kinds of edge, include reflexible edge, which the Node "from" and "to"
+ * There many kinds of edge, include reflective edge, which the Node "from" and "to"
  *  reference to the same node
  * An edge can be compared by its name
  */
 public class Edge implements Comparable<Edge> {
     private final String from;
     private final String  to;
-    private final String name = "";
+    private final String name;
 
     // Abstraction Function:
     // an edge that start from node "from" and ends at Node "to"
@@ -26,8 +27,11 @@ public class Edge implements Comparable<Edge> {
           @effects Constructs a new Edge that connects Node a and Node b
          with name n
      */
-    public Edge (String a, String b, String n) {
-        throw new RuntimeException("Edge constructor Not Implemented");
+    public Edge (String a, String b, String n){
+        from = a;
+        to = b;
+        name = n;
+        checkRep();
     }
 
     /** @param a is the String represent node that  the edge start from
@@ -36,7 +40,10 @@ public class Edge implements Comparable<Edge> {
      with name n
      */
     public Edge (String a, String b) {
-        throw new RuntimeException("Edge constructor without label Not Implemented");
+        from = a;
+        to = b;
+        name = "";
+        checkRep();
     }
 
     /**
@@ -57,7 +64,7 @@ public class Edge implements Comparable<Edge> {
           @return source node of this edge
      */
     public String getFrom() {
-        throw new RuntimeException("getFrom Not Implemented");
+        return from;
     }
 
     /**
@@ -65,7 +72,7 @@ public class Edge implements Comparable<Edge> {
      * @return Node Destination of this edge
      */
     public String getTo() {
-        throw new RuntimeException("getTo Not Implemented");
+        return to;
     }
 
     /**
@@ -73,8 +80,9 @@ public class Edge implements Comparable<Edge> {
      * @return String the name of this edge
      */
     public String getName() {
-        throw new RuntimeException("getName Not Implemented");
+        return name;
     }
+
     /** Compares two Edges
      @param edge The Edge to be compared.
      @requires rn != null
@@ -84,6 +92,30 @@ public class Edge implements Comparable<Edge> {
      */
     @Override
     public int compareTo(Edge edge) {
-            throw new RuntimeException("CompareTo Not Implemented");
+            if (getTo().equals(edge.getTo())) {
+                return getName().compareTo(edge.getName());
+            }
+
+            return getTo().compareTo(edge.getTo());
+    }
+
+    /**
+    @param o The Edge to be compared.
+     @requires none
+     @return true iff this has the same attribute as o
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edge edge = (Edge) o;
+        return getFrom().equals(edge.getFrom()) &&
+                getTo().equals(edge.getTo()) &&
+                getName().equals(edge.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFrom(), getTo(), getName());
     }
 }
