@@ -35,7 +35,7 @@ public class Edge implements Comparable<Edge> {
 
     /** @param a is the String represent node that  the edge start from
      * @param b is the String represent node that the edge ends at
-     @effects Constructs a new Edge that connects Node a and Node b
+       @effects Constructs a new Edge that connects Node a and Node b
      with name n
      */
     public Edge (String a, String b) {
@@ -84,7 +84,7 @@ public class Edge implements Comparable<Edge> {
 
     /** Compares two Edges
      @param edge The Edge to be compared.
-     @requires rn != null
+     @requires edge != null
      @return positive if  this.name > edge.name
      0 if the name are same
      negative if this.name < edge.name

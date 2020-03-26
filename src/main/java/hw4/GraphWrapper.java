@@ -1,8 +1,8 @@
 package hw4;
 
-
 import java.util.Iterator;
 
+// Wrapper class for grading
 class GraphWrapper {
     private Graph g;
 
@@ -11,7 +11,7 @@ class GraphWrapper {
     }
 
     /*
-     Adds a node represented by the string nodeData to your graph.
+    Adds a node represented by the string nodeData to your graph.
      If an identical node already exists in the graph, the output of addNode is not defined, that is, it is left at your discretion.
      */
     public void addNode(String nodeData) {
