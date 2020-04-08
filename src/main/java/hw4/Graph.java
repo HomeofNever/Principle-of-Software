@@ -79,7 +79,7 @@ public class Graph {
         Edge toBeAdded = new Edge(a, b, edgeName);
         if (graph.containsKey(a) && graph.containsKey(b)) {
             boolean result = graph.get(a).add(toBeAdded);
-            checkRep();
+            // checkRep();
             return result;
         }
 

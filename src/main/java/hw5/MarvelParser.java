@@ -41,19 +41,42 @@ public class MarvelParser {
         }
     }
 
+    /** @param: Graph The graph to build the heros and book connections.
+     @param: charsInBooks The Map that stores parsed <book, Set-of-heros-in-book> pairs.
+     @param: chars The Set that stores parsed characters.
+     @effects: adds <book, Set-of-heros-in-book> pairs to Graph g
+     */
+    public static void buildGraph(Graph g, Map<String,Set<String>> charsInBooks, Set<String> chars) {
+        // Build Nodes
+        for (String s:chars)
+            g.addNode(s);
+
+        for (Map.Entry<String, Set<String>> entry : charsInBooks.entrySet()) {
+            for (String e1: entry.getValue()) {
+                for (String e2: entry.getValue()) {
+                    if (!e1.equals(e2)) {
+                        g.connect(e1, e2, entry.getKey());
+                    }
+                }
+            }
+        }
+    }
+
     public static void main(String[] arg) {
-
-    	String file = arg[0];
-
-    	try {
-    		Map<String, Set<String>> charsInBooks = new HashMap<String,Set<String>>();
-    		Set<String> chars = new HashSet<String>();
-    		readData(file,charsInBooks,chars);
-    		System.out.println("Read "+chars.size()+" characters who appear in "+charsInBooks.keySet().size() +" books.");
-
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-
+//    	String file = arg[0];
+//
+//    	try {
+//    		Map<String, Set<String>> charsInBooks = new HashMap<String,Set<String>>();
+//    		Set<String> chars = new HashSet<String>();
+//    		readData(file,charsInBooks,chars);
+//    		System.out.println("Read "+chars.size()+" characters who appear in "+charsInBooks.keySet().size() +" books.");
+//
+//    		Graph g = new Graph();
+//    		buildGraph(g, charsInBooks, chars);
+//
+//    		System.out.println("Node Number: " + g.getNodes().size() );
+//    	} catch (IOException e) {
+//    		e.printStackTrace();
+//    	}
     }
 }
