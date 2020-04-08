@@ -48,6 +48,7 @@ public class Graph {
     /**
      * add new node to the graph
      * @param a String represent Node to be added
+     * @effects  add given node as key to map graph
      * @return boolean true iff the edge successfully added to the graph
      */
     public boolean addNode(String a) {
