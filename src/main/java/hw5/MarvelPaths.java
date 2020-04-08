@@ -20,10 +20,15 @@ class MarvelPaths {
     // a set of nodes as heros and edges with book name that connecting heros.
 
     // Representation invariant for every MarvelPath
-    // g != null && g.checkRep()
+    // g != null
     // An empty Path is allowed
 
     public MarvelPaths() {}
+
+    private void checkRep() throws RuntimeException {
+        if (g == null)
+            throw new RuntimeException("Graph g does not init properly!");
+    }
 
     /**
      * @param filename CSV file that contains hero-book pairs
@@ -41,6 +46,8 @@ class MarvelPaths {
             g = new Graph();
             MarvelParser.buildGraph(g, charsInBooks, chars);
         }
+
+        // checkRep();
     }
 
     /**
@@ -51,6 +58,7 @@ class MarvelPaths {
      * If there is no path between these two character, no path will be returned
      */
     public String findPath(String node1, String node2) {
+        // checkRep();
         StringBuilder result = new StringBuilder();
         if (!g.getNodes().contains(node1)) {
             result.append("unknown character ").append(node1).append('\n');
