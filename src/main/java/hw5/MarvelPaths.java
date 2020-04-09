@@ -8,27 +8,15 @@ import java.util.*;
 import static hw5.MarvelParser.readData;
 
 /**
- * <b>MarvelPath</b> represents an <b>mutable</b>  Paths represent
- * Marvel Heros relation connected by books.
- * It contains a Graph that store the relations and provide methods to
- * find the path between them..
+ * This class does not represent an ADT since it only utilize its underlay Graph to store
+ * Hero-book relationship and implement an BFS search algorithm on the Graph.
+ * The Class itself is actually **act  as** a GraphWrapper, a concrete usage of Graph
  */
 class MarvelPaths {
     Graph g = new Graph();
-    // Abstraction Function:
-    // Make use of class Graph, we have a structure Graph to represent
-    // a set of nodes as heros and edges with book name that connecting heros.
-
-    // Representation invariant for every MarvelPath
-    // g != null
-    // An empty Path is allowed
 
     public MarvelPaths() {}
 
-    private void checkRep() throws RuntimeException {
-        if (g == null)
-            throw new RuntimeException("Graph g does not init properly!");
-    }
 
     /**
      * @param filename CSV file that contains hero-book pairs
@@ -46,8 +34,6 @@ class MarvelPaths {
             g = new Graph();
             MarvelParser.buildGraph(g, charsInBooks, chars);
         }
-
-        // checkRep();
     }
 
     /**
@@ -58,7 +44,6 @@ class MarvelPaths {
      * If there is no path between these two character, no path will be returned
      */
     public String findPath(String node1, String node2) {
-        // checkRep();
         StringBuilder result = new StringBuilder();
         if (!g.getNodes().contains(node1)) {
             result.append("unknown character ").append(node1).append('\n');
