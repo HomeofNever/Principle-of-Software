@@ -19,33 +19,24 @@ public class MarvelPathsTest {
         p.createNewGraph(myOwnCSV);
     }
 
-    private String readFileContent(String filename) throws IOException {
-
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
-        String line;
-        StringBuilder result = new StringBuilder();
-
-        while ((line = reader.readLine()) != null) {
-            result.append(line).append('\n');
-        }
-
-        return result.toString();
-    }
-
     @Test
     public void findPath() {
-        try {
-            assertEquals(readFileContent("data/result/char1_char2.txt"), p.findPath("Char1", "Char2"));
-            assertEquals(readFileContent("data/result/char2_char2.txt"), p.findPath("Char2", "Char2"));
-            // Not Exist node/path
-            assertEquals(readFileContent("data/result/char_not_exist.txt"), p.findPath("CharNotExist", "CharNotExist1"));
-            assertEquals(readFileContent("data/result/char1_char_not_exist.txt"), p.findPath("Char1", "CharNotExist"));
-            assertEquals(readFileContent("data/result/char4_no_path.txt"), p.findPath("Char4", "Char1"));
-            // Shortest Path
-            assertEquals(readFileContent("data/result/char1_char7.txt"), p.findPath("Char1", "Char7"));
-            assertEquals(readFileContent("data/result/char7_char1.txt"), p.findPath("Char7", "Char1"));
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
+        assertEquals("path from Char1 to Char2:\n" +
+                "Char1 to Char2 via Book1\n", p.findPath("Char1", "Char2"));
+        assertEquals("path from Char2 to Char2:\n", p.findPath("Char2", "Char2"));
+        // Not Exist node/path
+        assertEquals("unknown character CharNotExist\n" +
+                "unknown character CharNotExist1\n", p.findPath("CharNotExist", "CharNotExist1"));
+        assertEquals("unknown character CharNotExist\n", p.findPath("Char1", "CharNotExist"));
+        assertEquals("path from Char4 to Char1:\n" +
+                "no path found\n", p.findPath("Char4", "Char1"));
+        assertEquals("unknown character CharNotExist\n", p.findPath("CharNotExist", "CharNotExist"));
+        // Shortest Path
+        assertEquals("path from Char1 to Char7:\n" +
+                "Char1 to Char6 via Book1\n" +
+                "Char6 to Char7 via Book5\n", p.findPath("Char1", "Char7"));
+        assertEquals("path from Char7 to Char1:\n" +
+                "Char7 to Char6 via Book5\n" +
+                "Char6 to Char1 via Book1\n", p.findPath("Char7", "Char1"));
     }
 }
