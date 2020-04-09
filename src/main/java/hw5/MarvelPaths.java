@@ -63,7 +63,7 @@ class MarvelPaths {
         if (!g.getNodes().contains(node1)) {
             result.append("unknown character ").append(node1).append('\n');
         }
-        if (!g.getNodes().contains(node2)) {
+        if ((!g.getNodes().contains(node2)) && (!node1.equals(node2))) {
             result.append("unknown character ").append(node2).append('\n');
         }
 

@@ -15,7 +15,7 @@ public class MarvelPathsTest {
 
     @Before
     public void spinUp() {
-        String myOwnCSV = "own.csv";
+        String myOwnCSV = "data/own.csv";
         p.createNewGraph(myOwnCSV);
     }
 
@@ -34,14 +34,14 @@ public class MarvelPathsTest {
 
     @Test
     public void findPath() {
-        assertEquals(readFileContent("result/char1_char2.txt"), p.findPath("Char1", "Char2"));
-        assertEquals(readFileContent("result/char2_char2.txt"), p.findPath("Char2", "Char2"));
+        assertEquals(readFileContent("data/result/char1_char2.txt"), p.findPath("Char1", "Char2"));
+        assertEquals(readFileContent("data/result/char2_char2.txt"), p.findPath("Char2", "Char2"));
         // Not Exist node/path
-        assertEquals(readFileContent("result/char_not_exist.txt"), p.findPath("CharNotExist", "CharNotExist1"));
-        assertEquals(readFileContent("result/char1_char_not_exist.txt"), p.findPath("Char1", "CharNotExist"));
-        assertEquals(readFileContent("result/char4_no_path.txt"), p.findPath("Char4", "Char1"));
+        assertEquals(readFileContent("data/result/char_not_exist.txt"), p.findPath("CharNotExist", "CharNotExist1"));
+        assertEquals(readFileContent("data/result/char1_char_not_exist.txt"), p.findPath("Char1", "CharNotExist"));
+        assertEquals(readFileContent("data/result/char4_no_path.txt"), p.findPath("Char4", "Char1"));
         // Shortest Path
-        assertEquals(readFileContent("result/char1_char7.txt"), p.findPath("Char1", "Char7"));
-        assertEquals(readFileContent("result/char7_char1.txt"), p.findPath("Char7", "Char1"));
+        assertEquals(readFileContent("data/result/char1_char7.txt"), p.findPath("Char1", "Char7"));
+        assertEquals(readFileContent("data/result/char7_char1.txt"), p.findPath("Char7", "Char1"));
     }
 }
