@@ -96,8 +96,12 @@ class MarvelPaths {
             }
 
             // Output path format
-            for (Edge e: path) {
-                result.append(e.getFrom()).append(" to ").append(e.getTo()).append(" via ").append(e.getName()).append('\n');
+            if (path.size() == 0 && !node1.equals(node2)) {
+                result.append("no path found\n");
+            } else {
+                for (Edge e: path) {
+                    result.append(e.getFrom()).append(" to ").append(e.getTo()).append(" via ").append(e.getName()).append('\n');
+                }
             }
         }
 
