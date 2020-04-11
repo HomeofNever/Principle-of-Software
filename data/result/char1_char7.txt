@@ -1,0 +1,3 @@
+path from Char1 to Char7:
+Char1 to Char6 via Book1
+Char6 to Char7 via Book5

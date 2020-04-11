@@ -1,0 +1,2 @@
+unknown character CharNotExist
+unknown character CharNotExist1

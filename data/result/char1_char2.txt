@@ -1,0 +1,2 @@
+path from Char1 to Char2:
+Char1 to Char2 via Book1
