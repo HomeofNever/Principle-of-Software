@@ -126,7 +126,7 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
                                 .append("\n");
                     }
                 }
-                result.append(String.format("total cost: %.3f",totalCost));
+                result.append(String.format("total cost: %.3f\n",totalCost));
             } else {
                 result.append("no path found\n");
             }

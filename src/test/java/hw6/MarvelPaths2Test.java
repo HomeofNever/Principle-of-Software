@@ -28,10 +28,10 @@ public class MarvelPaths2Test {
         assertEquals("path from Char1 to Char5:\n" +
                 "Char1 to Char2 with weight 0.500\n" +
                 "Char2 to Char5 with weight 0.250\n" +
-                "total cost: 0.750", p.findPath("Char1", "Char5"));
+                "total cost: 0.750\n", p.findPath("Char1", "Char5"));
         // Special Cases
         assertEquals("path from Char1 to Char1:\n" +
-                "total cost: 0.000", p.findPath("Char1", "Char1"));
+                "total cost: 0.000\n", p.findPath("Char1", "Char1"));
         assertEquals("path from Char1 to Char6:\n" +
                 "no path found\n", p.findPath("Char1", "Char6"));
         assertEquals("unknown character CharNotExist\n",
