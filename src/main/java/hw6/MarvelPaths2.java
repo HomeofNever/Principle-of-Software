@@ -4,7 +4,6 @@ import hw4.Edge;
 import hw4.Graph;
 import hw5.MarvelParser;
 import hw5.PathAlgorithm;
-import javafx.util.Pair;
 
 import java.util.*;
 
@@ -30,13 +29,13 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
                 g.addNode(c);
 
             // Build Relationship
-            Map<Pair<String, String>, Integer> m = new HashMap<>();
+            Map<Map.Entry<String, String>, Integer> m = new HashMap<>();
             for (Map.Entry<String, Set<String>> entry : charsInBooks.entrySet()) {
                 List<String> arr = new ArrayList<>(entry.getValue());
                 for (int x = 0; x < arr.size(); x++) {
                     for (int y = x + 1; y < arr.size(); y++) {
-                        Pair<String, String> p = new Pair<>(arr.get(x), arr.get(y));
-                        Pair<String, String> q = new Pair<>(arr.get(y), arr.get(x));
+                        Map.Entry<String, String> p = new AbstractMap.SimpleEntry<>(arr.get(x), arr.get(y));
+                        Map.Entry<String, String> q = new AbstractMap.SimpleEntry<>(arr.get(y), arr.get(x));
                         // They should be the same number
                         // Either they will be null together or they should be the same
                         Integer i = m.get(p);
@@ -52,7 +51,7 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
             }
 
             // Connect Graph
-            for (Map.Entry<Pair<String, String>, Integer> entry : m.entrySet()) {
+            for (Map.Entry<Map.Entry<String, String>, Integer> entry : m.entrySet()) {
                 String a = entry.getKey().getKey();
                 String b = entry.getKey().getValue();
                 Double d = 1.0 / entry.getValue();
@@ -71,26 +70,26 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
         StringBuilder result = new StringBuilder();
         boolean found = false;
         Double totalCost = 0.0;
-        List<Pair<String, Double>> path = new LinkedList<>();
+        List<Map.Entry<String, Double>> path = new LinkedList<>();
 
         if (checkNode(result, node1, node2)) {
             if (!node1.equals(node2)) {
                 // Prepare for the Queue, and init distance to inf
-                Queue<Pair<String, Double>> active = new PriorityQueue<>(new PairComparator());
+                Queue<Map.Entry<String, Double>> active = new PriorityQueue<>(new PairComparator());
                 Map<String,Double> distances = new HashMap<>();
                 Map<String,String> paths = new HashMap<>();
 
                 for (String s: g.getNodes()) {
                     distances.put(s, Double.POSITIVE_INFINITY);
                     paths.put(s, null);
-                    active.offer(new Pair<>(s, Double.POSITIVE_INFINITY));
+                    active.offer(new AbstractMap.SimpleEntry<>(s, Double.POSITIVE_INFINITY));
                 }
 
                 // init the start node as 0
                 distances.put(node1, 0.0);
-                active.offer(new Pair<>(node1, 0.0));
+                active.offer(new AbstractMap.SimpleEntry<>(node1, 0.0));
                 while (!active.isEmpty()) {
-                    Pair<String, Double> minPath = active.poll();
+                    Map.Entry<String, Double> minPath = active.poll();
                     String minDest = minPath.getKey();
 
                     for (Edge<String, Double> e : g.connectedEdge(minDest)) {
@@ -107,10 +106,10 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
                     found = true;
                     String current= node2;
                     while (!current.equals(node1)) {
-                        path.add(0, new Pair<>(current, distances.get(current)));
+                        path.add(0, new AbstractMap.SimpleEntry<>(current, distances.get(current)));
                         current = paths.get(current);
                     }
-                    path.add(0, new Pair<>(current, distances.get(current)));
+                    path.add(0, new AbstractMap.SimpleEntry<>(current, distances.get(current)));
                 }
             }
 
@@ -119,8 +118,8 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
                 if (path.size() > 0) {
                     totalCost = path.get(path.size() - 1).getValue();
                     for (int i = 0; i < path.size() - 1; i++) {
-                        Pair<String, Double> current = path.get(i);
-                        Pair<String, Double> next = path.get(i + 1);
+                        Map.Entry<String, Double> current = path.get(i);
+                        Map.Entry<String, Double> next = path.get(i + 1);
                         Double value = next.getValue() - current.getValue();
                         result.append(current.getKey()).append(" to ").append(next.getKey())
                                 .append(String.format(" with weight %.3f", value))
@@ -141,8 +140,8 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
  * Comparator class for Pair in Priority Queue
  * Will only compare edge weight
  */
-class PairComparator implements Comparator<Pair<String, Double>>{
-    public int compare(Pair<String, Double> v1, Pair<String, Double> v2)
+class PairComparator implements Comparator<Map.Entry<String, Double>>{
+    public int compare(Map.Entry<String, Double> v1, Map.Entry<String, Double> v2)
     {
         return Double.compare(v1.getValue(), v2.getValue());
     }

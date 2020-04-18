@@ -37,6 +37,6 @@ public class MarvelPaths2Test {
         assertEquals("unknown character CharNotExist\n",
                 p.findPath("CharNotExist", "CharNotExist"));
         assertEquals("unknown character CharNotExist1\n" +
-                "unknown character CharNotExist2", p.findPath("CharNotExist1", "CharNotExist2"));
+                "unknown character CharNotExist2\n", p.findPath("CharNotExist1", "CharNotExist2"));
     }
 }
