@@ -6,8 +6,8 @@ import java.util.*;
  * <b>Graph</b> represents an <b>mutable</b> graph consists of nodes and edges
  * It represents a multi-bidirectional graph
  */
-public class Graph {
-    private TreeMap<String, TreeSet<Edge>> graph;
+public class Graph<T extends Comparable<T>, Q extends  Comparable<Q>> {
+    private TreeMap<T, TreeSet<Edge<T, Q>>> graph;
 
     // Abstraction Function:
     // Make use of adjacent list, we have a map that represent the start nodes corresponded with
@@ -33,11 +33,11 @@ public class Graph {
             throw new RuntimeException("Graph cannot be null");
         }
 
-        for (Set<Edge> s : graph.values()) {
+        for (Set<Edge<T, Q>> s : graph.values()) {
             if (s == null) {
                 throw new RuntimeException("Node with uninitialized Set");
             }
-            for (Edge n : s) {
+            for (Edge<T, Q> n : s) {
                 if (!graph.containsKey(n.getTo())) {
                     throw new RuntimeException("Edge connected to non-listed node");
                 }
@@ -51,7 +51,7 @@ public class Graph {
      * @effects  add given node as key to map graph
      * @return boolean true iff the edge successfully added to the graph
      */
-    public boolean addNode(String a) {
+    public boolean addNode(T a) {
         if (!graph.containsKey(a)) {
             graph.put(a, new TreeSet<>());
             return true;
@@ -65,7 +65,7 @@ public class Graph {
      * @return Set of Strings that represent nodes
      * An empty set will return if the graph is empty
      */
-    public Set<String> getNodes() {
+    public Set<T> getNodes() {
         return Collections.unmodifiableSet(graph.keySet());
     }
 
@@ -76,8 +76,8 @@ public class Graph {
      * @param edgeName String the name of the edge
      * @return boolean true iff the edge successfully added to the graph
      */
-    public boolean connect(String a, String b, String edgeName) {
-        Edge toBeAdded = new Edge(a, b, edgeName);
+    public boolean connect(T a, T b, Q edgeName) {
+        Edge<T, Q> toBeAdded = new Edge<T, Q>(a, b, edgeName);
         if (graph.containsKey(a) && graph.containsKey(b)) {
             boolean result = graph.get(a).add(toBeAdded);
             // checkRep();
@@ -88,22 +88,12 @@ public class Graph {
     }
 
     /**
-     * add new nodes and a edge to the graph
-     * @param a String represent Node which the edge starts at
-     * @param b String represent Node which the edge ends at
-     * @return boolean true iff the edge successfully added to the graph
-     */
-    public boolean connect(String a, String b) {
-       return connect(a, b , "");
-    }
-
-    /**
      * Return a Set of edge that start from given Node a
      * @param a String represent Node where the edge start from
      * @return A set of edge that start from given Node a.
      *  An empty set will return if node "a" does not exist
      */
-    public Set<Edge> connectedEdge(String a) {
+    public Set<Edge<T, Q>> connectedEdge(T a) {
         if (graph.get(a) == null)
             return new TreeSet<>();
        return Collections.unmodifiableSet(graph.get(a));
@@ -116,9 +106,9 @@ public class Graph {
      * e.g. Node(Label)
      *  An empty list will return if node "a" does not exist
      */
-    public List<String> connectedNodes(String a) {
+    public List<String> connectedNodes(T a) {
         ArrayList<String> r = new ArrayList<>();
-        for (Edge i : connectedEdge(a)) {
+        for (Edge<T, Q> i : connectedEdge(a)) {
             r.add(i.getTo() + "(" + i.getName() + ")");
         }
 
