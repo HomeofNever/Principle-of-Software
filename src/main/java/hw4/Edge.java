@@ -108,4 +108,12 @@ public class Edge<T extends Comparable<T>, Q extends Comparable<Q>>  implements 
         return Objects.hash(getFrom(), getTo(), getName());
     }
 
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "from=" + from +
+                ", to=" + to +
+                ", name=" + name +
+                '}';
+    }
 }

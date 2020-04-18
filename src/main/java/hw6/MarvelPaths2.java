@@ -61,67 +61,60 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
     }
 
     /**
-     * @param node1
-     * @param node2
-     * @return
+     * @param node1 String represent hero to begin search with
+     * @param node2 String represent heros to end search with
+     * @return String Indicate the path that start from node1 and end with node2
+     * with least cost
+     * if node 1 and/or node2 has no found in the graph, unknown character will be returned
+     * If there is no path between these two character, no path will be returned
      */
     @Override
     public String findPath(String node1, String node2) {
         StringBuilder result = new StringBuilder();
-        boolean found = false;
         Double totalCost = 0.0;
-        List<Map.Entry<String, Double>> path = new LinkedList<>();
+        Map<String, List<Edge<String, Double>>> minPaths = new HashMap<>();
+        Set<String> finished = new HashSet<>();
 
         if (checkNode(result, node1, node2)) {
-            if (!node1.equals(node2)) {
-                // Prepare for the Queue, and init distance to inf
-                Queue<Map.Entry<String, Double>> active = new PriorityQueue<>(new PairComparator());
-                Map<String,Double> distances = new HashMap<>();
-                Map<String,String> paths = new HashMap<>();
+            // Prepare for the Queue, and init distance to inf
+            Queue<Edge<String, Double>> active = new PriorityQueue<>(new EdgeComparator());
 
-                for (String s: g.getNodes()) {
-                    distances.put(s, Double.POSITIVE_INFINITY);
-                    paths.put(s, null);
-                    active.offer(new AbstractMap.SimpleEntry<>(s, Double.POSITIVE_INFINITY));
-                }
+            // init the start node as 0
+            active.offer(new Edge<>(node1, node1, 0.0));
+            while (!active.isEmpty()) {
+                Edge<String, Double> minPath = active.poll();
+                String minDest = minPath.getTo();
 
-                // init the start node as 0
-                distances.put(node1, 0.0);
-                active.offer(new AbstractMap.SimpleEntry<>(node1, 0.0));
-                while (!active.isEmpty()) {
-                    Map.Entry<String, Double> minPath = active.poll();
-                    String minDest = minPath.getKey();
+                if (finished.contains(minDest))
+                    continue;
 
-                    for (Edge<String, Double> e : g.connectedEdge(minDest)) {
-                        Double temp_distance = distances.get(minDest) + e.getName();
-                        if (temp_distance < distances.get(e.getTo())) {
-                            distances.put(e.getTo(), temp_distance);
-                            paths.put(e.getTo(), minDest);
-                        }
+                List<Edge<String, Double>> ls = new LinkedList<>();
+                if (minPaths.get(minPath.getFrom()) != null)
+                    ls.addAll(minPaths.get(minPath.getFrom()));
+                ls.add(minPath);
+                minPaths.put(minDest, ls);
+
+                if (minDest.equals(node2))
+                    break;
+
+                for (Edge<String, Double> e : g.connectedEdge(minDest)) {
+                    if (!finished.contains(e.getTo())) {
+                        Edge<String, Double> newPath = new Edge<>(e.getFrom(), e.getTo(), e.getName() + minPath.getName());
+                        active.offer(newPath);
                     }
                 }
 
-                // The final map store end node as result
-                if (paths.get(node2) != null) {
-                    found = true;
-                    String current= node2;
-                    while (!current.equals(node1)) {
-                        path.add(0, new AbstractMap.SimpleEntry<>(current, distances.get(current)));
-                        current = paths.get(current);
-                    }
-                    path.add(0, new AbstractMap.SimpleEntry<>(current, distances.get(current)));
-                }
+                finished.add(minDest);
             }
 
             // Format Result
-            if (found || node1.equals(node2)) {
-                if (path.size() > 0) {
-                    totalCost = path.get(path.size() - 1).getValue();
-                    for (int i = 0; i < path.size() - 1; i++) {
-                        Map.Entry<String, Double> current = path.get(i);
-                        Map.Entry<String, Double> next = path.get(i + 1);
-                        Double value = next.getValue() - current.getValue();
-                        result.append(current.getKey()).append(" to ").append(next.getKey())
+            if (minPaths.get(node2) != null) {
+                if (!node1.equals(node2)) {
+                    List<Edge<String, Double>> ls = minPaths.get(node2);
+                    totalCost = ls.get(ls.size() - 1).getName();
+                    for (int i = 1; i < ls.size(); i++) {
+                        Double value = i - 1 > 0 ? ls.get(i).getName() - ls.get(i - 1).getName() : ls.get(i).getName();
+                        result.append(ls.get(i).getFrom()).append(" to ").append(ls.get(i).getTo())
                                 .append(String.format(" with weight %.3f", value))
                                 .append("\n");
                     }
@@ -137,12 +130,12 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
 }
 
 /**
- * Comparator class for Pair in Priority Queue
+ * Comparator class for Edge in Priority Queue
  * Will only compare edge weight
  */
-class PairComparator implements Comparator<Map.Entry<String, Double>>{
-    public int compare(Map.Entry<String, Double> v1, Map.Entry<String, Double> v2)
+class EdgeComparator implements Comparator<Edge<String, Double>> {
+    public int compare(Edge<String, Double> v1, Edge<String, Double> v2)
     {
-        return Double.compare(v1.getValue(), v2.getValue());
+        return Double.compare(v1.getName(), v2.getName());
     }
 }

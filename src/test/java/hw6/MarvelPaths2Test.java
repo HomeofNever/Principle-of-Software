@@ -20,10 +20,10 @@ public class MarvelPaths2Test {
         // One edge
         assertEquals("path from Char1 to Char3:\n" +
                 "Char1 to Char3 with weight 0.333\n" +
-                "total cost: 0.333", p.findPath("Char1", "Char3"));
+                "total cost: 0.333\n", p.findPath("Char1", "Char3"));
         assertEquals("path from Char7 to Char6:\n" +
                 "Char7 to Char6 with weight 1.000\n" +
-                "total cost: 1.000", p.findPath("Char7", "Char6"));
+                "total cost: 1.000\n", p.findPath("Char7", "Char6"));
         // Two edges
         assertEquals("path from Char1 to Char5:\n" +
                 "Char1 to Char2 with weight 0.500\n" +
