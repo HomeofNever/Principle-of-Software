@@ -45,29 +45,6 @@ public class MarvelParser {
         }
     }
 
-    /** @param: Graph The graph to store the heros and book connections. Usually empty.
-     @param: charsInBooks The Map that stores parsed <book, Set-of-heros-in-book> pairs.
-     @param: chars The Set that stores parsed characters.
-     @effects: adds <book, Set-of-heros-in-book> pairs to Graph g, by setting heros as nodes,
-     and book as edge name, connecting them in mutual way.
-     */
-    public static void buildGraph(Graph g, Map<String,Set<String>> charsInBooks, Set<String> chars) {
-        // Build Nodes
-        for (String s:chars)
-            g.addNode(s);
-
-        for (Map.Entry<String, Set<String>> entry : charsInBooks.entrySet()) {
-            // Heros need to be connected to each other if there are shared in one book
-            for (String e1: entry.getValue()) {
-                for (String e2: entry.getValue()) {
-                    if (!e1.equals(e2)) {
-                        g.connect(e1, e2, entry.getKey());
-                    }
-                }
-            }
-        }
-    }
-
     public static void main(String[] arg) {
 //    	String file = arg[0];
 //

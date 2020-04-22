@@ -12,11 +12,9 @@ import static hw5.MarvelParser.readData;
  * Hero-book relationship and implement an BFS search algorithm on the Graph.
  * The Class itself is actually **act  as** a GraphWrapper, a concrete usage of Graph
  */
-class MarvelPaths {
-    Graph g = new Graph();
+public class MarvelPaths extends PathAlgorithm<String, String> {
 
     public MarvelPaths() {}
-
 
     /**
      * @param filename CSV file that contains hero-book pairs
@@ -31,8 +29,21 @@ class MarvelPaths {
             System.out.println("Error when reading data from file " + filename);
             e.printStackTrace();
         } finally {
-            g = new Graph();
-            MarvelParser.buildGraph(g, charsInBooks, chars);
+            g = new Graph<>();
+            // Build Nodes
+            for (String s:chars)
+                g.addNode(s);
+
+            for (Map.Entry<String, Set<String>> entry : charsInBooks.entrySet()) {
+                // Heros need to be connected to each other if there are shared in one book
+                for (String e1: entry.getValue()) {
+                    for (String e2: entry.getValue()) {
+                        if (!e1.equals(e2)) {
+                            g.connect(e1, e2, entry.getKey());
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -45,19 +56,11 @@ class MarvelPaths {
      */
     public String findPath(String node1, String node2) {
         StringBuilder result = new StringBuilder();
-        if (!g.getNodes().contains(node1)) {
-            result.append("unknown character ").append(node1).append('\n');
-        }
-        if ((!g.getNodes().contains(node2)) && (!node1.equals(node2))) {
-            result.append("unknown character ").append(node2).append('\n');
-        }
-
-        if (result.length() == 0) {
-            result.append("path from ").append(node1).append(" to ").append(node2).append(":\n");
+        if (checkNode(result, node1, node2)) {
             // Prepare for the Queue, a map to store visited path and a placeholder for final result
             Queue<String> workList = new LinkedList<>();
-            Map<String, List<Edge>> visited = new TreeMap<>();
-            List<Edge> path = new ArrayList<>();
+            Map<String, List<Edge<String, String>>> visited = new TreeMap<>();
+            List<Edge<String, String>> path = new ArrayList<>();
 
             workList.offer(node1);
             visited.put(node1, new ArrayList<>());
@@ -70,9 +73,9 @@ class MarvelPaths {
                     break;
                 }
 
-                for (Edge e: g.connectedEdge(current_node)) {
+                for (Edge<String, String> e: g.connectedEdge(current_node)) {
                     if (!visited.containsKey(e.getTo())) {
-                        List<Edge> p = new ArrayList<>(visited.get(e.getFrom()));
+                        List<Edge<String, String>> p = new ArrayList<>(visited.get(e.getFrom()));
                         p.add(e);
                         visited.put(e.getTo(), p);
                         workList.offer(e.getTo());
@@ -84,7 +87,7 @@ class MarvelPaths {
             if (path.size() == 0 && !node1.equals(node2)) {
                 result.append("no path found\n");
             } else {
-                for (Edge e: path) {
+                for (Edge<String, String> e: path) {
                     result.append(e.getFrom()).append(" to ").append(e.getTo()).append(" via ").append(e.getName()).append('\n');
                 }
             }

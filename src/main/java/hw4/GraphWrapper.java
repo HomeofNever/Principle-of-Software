@@ -4,10 +4,10 @@ import java.util.Iterator;
 
 // Wrapper class for grading
 class GraphWrapper {
-    private Graph g;
+    private Graph<String, String> g;
 
     public GraphWrapper() {
-        g = new Graph();
+        g = new Graph<>();
     }
 
     /*

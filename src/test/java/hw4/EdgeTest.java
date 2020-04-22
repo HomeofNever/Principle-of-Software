@@ -4,21 +4,21 @@ import static org.junit.Assert.*;
 
 public class EdgeTest {
 
-    private Edge normal = new Edge("a", "b");
-    private Edge normal_1 = new Edge("a", "b");
-    private Edge normal_with_label_c = new Edge("z", "b", "c");
-    private Edge normal_with_label_c_1 = new Edge("a", "z", "c");
-    private Edge normal_with_long_label = new Edge("a", "b", "cde");
-    private Edge normal_with_long_label_1 = new Edge("a", "b", "cdf");
-    private Edge normal_with_label_d = new Edge("a", "b", "d");
-    private Edge normal_with_same_label_from = new Edge("a", "b", "a");
-    private Edge normal_with_same_label_to = new Edge("a", "b", "b");
+    private Edge<String, String> normal = new Edge<>("a", "b", "");
+    private Edge<String, String>  normal_1 = new Edge<>("a", "b", "");
+    private Edge<String, String>  normal_with_label_c = new Edge<>("z", "b", "c");
+    private Edge<String, String>  normal_with_label_c_1 = new Edge<>("a", "z", "c");
+    private Edge<String, String>  normal_with_long_label = new Edge<>("a", "b", "cde");
+    private Edge<String, String>  normal_with_long_label_1 = new Edge<>("a", "b", "cdf");
+    private Edge<String, String>  normal_with_label_d = new Edge<>("a", "b", "d");
+    private Edge<String, String>  normal_with_same_label_from = new Edge<>("a", "b", "a");
+    private Edge<String, String>  normal_with_same_label_to = new Edge<>("a", "b", "b");
 
     // Special
-    private Edge reflective = new Edge("a", "a");
-    private Edge reflective_1 = new Edge("a", "a");
-    private Edge reflective_with_label_b = new Edge("a", "a", "b");
-    private Edge reflective_with_same_label = new Edge ("a", "a", "a");
+    private Edge<String, String>  reflective = new Edge<>("a", "a", "");
+    private Edge<String, String>  reflective_1 = new Edge<>("a", "a", "");
+    private Edge<String, String>  reflective_with_label_b = new Edge<>("a", "a", "b");
+    private Edge<String, String>  reflective_with_same_label = new Edge<> ("a", "a", "a");
 
     @org.junit.Test
     public void getFrom() {

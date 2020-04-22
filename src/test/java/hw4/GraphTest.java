@@ -8,19 +8,19 @@ import java.util.TreeSet;
 import static org.junit.Assert.*;
 
 public class GraphTest {
-    Graph g = new Graph();
+    Graph<String, String>  g = new Graph<>();
 
-    Edge ab = new Edge("a", "b");
-    Edge bc = new Edge("b", "c");
-    Edge cd = new Edge("c", "d");
-    Edge ad = new Edge("a", "d", "edge1");
-    Edge aa = new Edge("a", "a");
+    Edge<String, String>  ab = new Edge<>("a", "b", "");
+    Edge<String, String>  bc = new Edge<>("b", "c", "");
+    Edge<String, String>  cd = new Edge<>("c", "d", "");
+    Edge<String, String>  ad = new Edge<>("a", "d", "edge1");
+    Edge<String, String>  aa = new Edge<>("a", "a", "");
 
-    Edge ab_1 = new Edge("a", "b", "edge1");
-    Edge ad_1 = new Edge("a", "d", "edge2");
+    Edge<String, String>  ab_1 = new Edge<>("a", "b", "edge1");
+    Edge<String, String>  ad_1 = new Edge<>("a", "d", "edge2");
 
-    Edge ada = new Edge("ad", "a");
-    Edge ada_1 = new Edge("ad", "a", "some edge");
+    Edge<String, String>  ada = new Edge<>("ad", "a", "");
+    Edge<String, String>  ada_1 = new Edge<>("ad", "a", "some edge");
 
     @org.junit.Before
     public void spinUp() {
@@ -31,12 +31,12 @@ public class GraphTest {
         assertTrue(g.addNode("d"));
         assertTrue(g.addNode("ad"));
 
-        assertTrue(g.connect("a", "b"));
-        assertTrue(g.connect("b", "c"));
-        assertTrue(g.connect("c", "d"));
+        assertTrue(g.connect("a", "b", ""));
+        assertTrue(g.connect("b", "c", ""));
+        assertTrue(g.connect("c", "d", ""));
         assertTrue(g.connect("a", "d", "edge1"));
-        assertTrue(g.connect("a", "a"));
-        assertTrue(g.connect("ad", "a"));
+        assertTrue(g.connect("a", "a", ""));
+        assertTrue(g.connect("ad", "a", ""));
     }
 
     @Test
@@ -59,19 +59,19 @@ public class GraphTest {
 
     @org.junit.Test
     public void connect() {
-        assertFalse(g.connect("a", "b"));
-        assertFalse(g.connect("a", "a"));
-        assertFalse(g.connect("ad", "a"));
+        assertFalse(g.connect("a", "b", ""));
+        assertFalse(g.connect("a", "a", ""));
+        assertFalse(g.connect("ad", "a", ""));
         assertTrue(g.connect("a", "b", "edge1"));
         assertTrue(g.connect("a", "d", "edge2"));
         assertTrue(g.connect("ad", "a", "some edge"));
 
         // The graph should have be like
-        TreeSet<Edge> empty = new TreeSet<>();
-        TreeSet<Edge> a = new TreeSet<>();
-        TreeSet<Edge> b = new TreeSet<>();
-        TreeSet<Edge> c = new TreeSet<>();
-        TreeSet<Edge> s_ad = new TreeSet<>();
+        TreeSet<Edge<String, String>> empty = new TreeSet<>();
+        TreeSet<Edge<String, String>> a = new TreeSet<>();
+        TreeSet<Edge<String, String>> b = new TreeSet<>();
+        TreeSet<Edge<String, String>> c = new TreeSet<>();
+        TreeSet<Edge<String, String>> s_ad = new TreeSet<>();
 
         a.add(ab);
         a.add(ad);
