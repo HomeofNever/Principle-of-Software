@@ -4,17 +4,20 @@ import hw4.Edge;
 import hw4.Graph;
 import hw5.MarvelParser;
 import hw5.PathAlgorithm;
+import hw5.PathAlgorithmWithNumber;
 
 import java.util.*;
 
-public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
+public class MarvelPaths2  {
+
+    PathAlgorithmWithNumber<String, Double> p = new PathAlgorithmWithNumber<>();
 
     /**
-     *  Read in data from given filename and parse it into algorithm optimized form
+     * Read in data from given filename and parse it into algorithm optimized form
+     *
      * @param filename filename CSV file that contains hero-book pairs
      * @effects g Graph will be filled with char - (1/number of book between char) - char
      */
-    @Override
     public void createNewGraph(String filename) {
         Map<String, Set<String>> charsInBooks = new HashMap<>();
         Set<String> chars = new HashSet<>();
@@ -24,7 +27,7 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
             System.out.println("Error when reading data from file " + filename);
             e.printStackTrace();
         } finally {
-            g = new Graph<>();
+            Graph<String ,Double>g = new Graph<>();
             for (String c : chars)
                 g.addNode(c);
 
@@ -57,6 +60,8 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
                 Double d = 1.0 / entry.getValue();
                 g.connect(a, b, d);
             }
+
+            p.setGraph(g);
         }
     }
 
@@ -68,45 +73,14 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
      * if node 1 and/or node2 has no found in the graph, unknown character will be returned
      * If there is no path between these two character, no path will be returned
      */
-    @Override
     public String findPath(String node1, String node2) {
         StringBuilder result = new StringBuilder();
-        Double totalCost = 0.0;
-        Map<String, List<Edge<String, Double>>> minPaths = new HashMap<>();
-        Set<String> finished = new HashSet<>();
+        int r = p.checkNode(node1, node2);
+        PathAlgorithm.writeStats(result, r, node1, node2);
 
-        if (checkNode(result, node1, node2)) {
-            // Prepare for the Queue, and init distance to inf
-            Queue<Edge<String, Double>> active = new PriorityQueue<>(new EdgeComparator());
-
-            // init the start node as 0
-            active.offer(new Edge<>(node1, node1, 0.0));
-            while (!active.isEmpty()) {
-                Edge<String, Double> minPath = active.poll();
-                String minDest = minPath.getTo();
-
-                if (finished.contains(minDest))
-                    continue;
-
-                List<Edge<String, Double>> ls = new LinkedList<>();
-                if (minPaths.get(minPath.getFrom()) != null)
-                    ls.addAll(minPaths.get(minPath.getFrom()));
-                ls.add(minPath);
-                minPaths.put(minDest, ls);
-
-                if (minDest.equals(node2))
-                    break;
-
-                for (Edge<String, Double> e : g.connectedEdge(minDest)) {
-                    if (!finished.contains(e.getTo())) {
-                        Edge<String, Double> newPath = new Edge<>(e.getFrom(), e.getTo(), e.getName() + minPath.getName());
-                        active.offer(newPath);
-                    }
-                }
-
-                finished.add(minDest);
-            }
-
+        if (r == 0) {
+            Double totalCost = 0.0;
+            Map<String, List<Edge<String, Double>>> minPaths = p.findDijkstra(node1, node2);
             // Format Result
             if (minPaths.get(node2) != null) {
                 if (!node1.equals(node2)) {
@@ -119,23 +93,12 @@ public class MarvelPaths2 extends  PathAlgorithm<String, Double> {
                                 .append("\n");
                     }
                 }
-                result.append(String.format("total cost: %.3f\n",totalCost));
+                result.append(String.format("total cost: %.3f\n", totalCost));
             } else {
                 result.append("no path found\n");
             }
         }
 
         return result.toString();
-    }
-}
-
-/**
- * Comparator class for Edge in Priority Queue
- * Will only compare edge weight
- */
-class EdgeComparator implements Comparator<Edge<String, Double>> {
-    public int compare(Edge<String, Double> v1, Edge<String, Double> v2)
-    {
-        return Double.compare(v1.getName(), v2.getName());
     }
 }

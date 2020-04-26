@@ -12,9 +12,9 @@ import static hw5.MarvelParser.readData;
  * Hero-book relationship and implement an BFS search algorithm on the Graph.
  * The Class itself is actually **act  as** a GraphWrapper, a concrete usage of Graph
  */
-public class MarvelPaths extends PathAlgorithm<String, String> {
+public class MarvelPaths {
 
-    public MarvelPaths() {}
+    PathAlgorithm<String, String> p = new PathAlgorithm<>();
 
     /**
      * @param filename CSV file that contains hero-book pairs
@@ -24,26 +24,28 @@ public class MarvelPaths extends PathAlgorithm<String, String> {
         Map<String, Set<String>> charsInBooks = new HashMap<>();
         Set<String> chars = new HashSet<>();
         try {
-            readData(filename,charsInBooks,chars);
+            readData(filename, charsInBooks, chars);
         } catch (Exception e) {
             System.out.println("Error when reading data from file " + filename);
             e.printStackTrace();
         } finally {
-            g = new Graph<>();
+            Graph<String, String> g = new Graph<>();
             // Build Nodes
-            for (String s:chars)
+            for (String s : chars)
                 g.addNode(s);
 
             for (Map.Entry<String, Set<String>> entry : charsInBooks.entrySet()) {
                 // Heros need to be connected to each other if there are shared in one book
-                for (String e1: entry.getValue()) {
-                    for (String e2: entry.getValue()) {
+                for (String e1 : entry.getValue()) {
+                    for (String e2 : entry.getValue()) {
                         if (!e1.equals(e2)) {
                             g.connect(e1, e2, entry.getKey());
                         }
                     }
                 }
             }
+
+            p.setGraph(g);
         }
     }
 
@@ -56,43 +58,19 @@ public class MarvelPaths extends PathAlgorithm<String, String> {
      */
     public String findPath(String node1, String node2) {
         StringBuilder result = new StringBuilder();
-        if (checkNode(result, node1, node2)) {
-            // Prepare for the Queue, a map to store visited path and a placeholder for final result
-            Queue<String> workList = new LinkedList<>();
-            Map<String, List<Edge<String, String>>> visited = new TreeMap<>();
-            List<Edge<String, String>> path = new ArrayList<>();
-
-            workList.offer(node1);
-            visited.put(node1, new ArrayList<>());
-            while (!workList.isEmpty()) {
-                String current_node = workList.poll();
-
-                // Break on result
-                if (current_node.equals(node2)) {
-                    path = visited.get(current_node);
-                    break;
-                }
-
-                for (Edge<String, String> e: g.connectedEdge(current_node)) {
-                    if (!visited.containsKey(e.getTo())) {
-                        List<Edge<String, String>> p = new ArrayList<>(visited.get(e.getFrom()));
-                        p.add(e);
-                        visited.put(e.getTo(), p);
-                        workList.offer(e.getTo());
-                    }
-                }
-            }
-
+        int r = p.checkNode(node1, node2);
+        PathAlgorithm.writeStats(result, r, node1, node2);
+        if (r == 0) {
+            List<Edge<String, String>> path = p.findBFS(node1, node2);
             // Output path format
             if (path.size() == 0 && !node1.equals(node2)) {
                 result.append("no path found\n");
             } else {
-                for (Edge<String, String> e: path) {
+                for (Edge<String, String> e : path) {
                     result.append(e.getFrom()).append(" to ").append(e.getTo()).append(" via ").append(e.getName()).append('\n');
                 }
             }
         }
-
         return result.toString();
     }
 }
