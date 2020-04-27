@@ -32,7 +32,7 @@ public class CampusParser {
         }
     }
 
-    public static void readBuildingConnections(String filename, Map<Integer, Integer> connections)
+    public static void readBuildingConnections(String filename, List<Map.Entry<Integer, Integer>> connections)
             throws IOException {
 
         BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -43,7 +43,7 @@ public class CampusParser {
             if (res.length != 2) {
                 throw new IOException("File "+filename+" not a CSV (\"ID\",\"ID\") file.");
             }
-            connections.put(Integer.parseInt(res[0]), Integer.parseInt(res[1]));
+            connections.add(new AbstractMap.SimpleEntry<>(Integer.parseInt(res[0]), Integer.parseInt(res[1])));
         }
     }
 
@@ -51,11 +51,13 @@ public class CampusParser {
 //        String  edgeFile =  "data/RPI_map_data_Edges.csv";
 //        String buildingFile = "data/RPI_map_data_Nodes.csv";
 //
-//        List<Building> b = new LinkedList<>();
-//        Map<Integer, Integer> m = new HashMap<>();
-//        readBulidings(buildingFile, b);
-//        readBulidingConnections(edgeFile, m);
+//        Set<Building> b = new HashSet<>();
+//        List<Map.Entry<Integer, Integer>> m = new LinkedList<>();
+//        readBuildings(buildingFile, b);
+//        readBuildingConnections(edgeFile, m);
 //
+//        System.out.println("Number of Buildings and Intersections: " + b.size());
+//        System.out.println("Number of Connections: " + m.size());
 //        System.out.println(b);
 //        System.out.println(m);
     }

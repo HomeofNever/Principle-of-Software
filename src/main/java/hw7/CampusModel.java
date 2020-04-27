@@ -23,7 +23,7 @@ public class CampusModel {
      */
     public void createNewGraph(String buildingFile, String connectionFile) {
         Set<Building> buildingList = new HashSet<>();
-        Map<Integer, Integer> connections = new HashMap<>();
+        List<Map.Entry<Integer, Integer>> connections = new LinkedList<>();
         try {
             CampusParser.readBuildings(buildingFile, buildingList);
             CampusParser.readBuildingConnections(connectionFile, connections);
@@ -32,7 +32,7 @@ public class CampusModel {
             e.printStackTrace();
         } finally {
             g = new Graph<>();
-            // Use ID to fast track building
+            // Use ID to fast track buildings
             for (Building b : buildingList) {
                 g.addNode(b);
                 idMap.put(b.getId(), b);
@@ -40,7 +40,7 @@ public class CampusModel {
             }
 
             // Build Relationship
-            for (Map.Entry<Integer, Integer> i : connections.entrySet()) {
+            for (Map.Entry<Integer, Integer> i : connections) {
                 Building a = idMap.get(i.getKey());
                 Building b = idMap.get(i.getValue());
                 Double distance = Math.sqrt(
@@ -88,4 +88,20 @@ public class CampusModel {
     public Set<Building> buildingSet() {
         return g.getNodes();
     }
+
+//    @Override
+//    public String toString() {
+//        StringBuilder b = new StringBuilder();
+//        for (Building bu : g.getNodes()) {
+//           for (Edge<Building, Double> e : g.connectedEdge(bu)) {
+//               b // .append(e.getFrom().getId())
+//                       .append("(") .append(e.getFrom().getName()).append(")")
+//                       .append(String.format(" %.3f ", e.getName()))
+//                       //.append(e.getTo().getId())
+//                       .append("(") .append(e.getTo().getName()).append(")")
+//                       .append("\n");
+//           }
+//        }
+//        return b.toString();
+//    }
 }

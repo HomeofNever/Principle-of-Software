@@ -22,7 +22,6 @@ public class CampusView {
         StringBuilder result = new StringBuilder();
         if (r == 0) {
                 Double totalCost = 0.0;
-                // Format Result
                 if (minPaths.get(node2) != null) {
                     result.append("Path from ").append(node1.getName()).append(" to ").append(node2.getName()).append(":\n");
                     if (!node1.equals(node2)) {
