@@ -78,6 +78,28 @@ public class Building implements Comparable<Building>{
         return angle;
     }
 
+    // North, NorthEast, East, SouthEast, South, SouthWest, West, and NorthWest.
+    public String calculateDirection(Building b) {
+        Double angle = calculateAngle(b);
+        if (22.5 <= angle && angle < 67.5) {
+            return "NorthEast";
+        } else if (67.5 < angle && angle <= 112.5) {
+            return "East";
+        } else if (112.5 < angle && angle <= 157.5) {
+            return "SouthEast";
+        } else if (157.5 < angle && angle <= 202.5) {
+            return "South";
+        } else if (202.5 < angle && angle <= 247.5) {
+            return "SouthWest";
+        } else if (247.5 < angle && angle <= 292.5) {
+            return "West";
+        } else if (292.5 < angle && angle <= 337.5){
+            return "NorthWest";
+        } else {
+            return "North";
+        }
+    }
+
     @Override
     public int compareTo(Building building) {
         int name = getName().compareTo(building.getName());

@@ -45,7 +45,7 @@ public class MarvelParser {
         }
     }
 
-    public static void main(String[] arg) {
+//    public static void main(String[] arg) {
 //    	String file = arg[0];
 //
 //    	try {
@@ -61,5 +61,5 @@ public class MarvelParser {
 //    	} catch (IOException e) {
 //    		e.printStackTrace();
 //    	}
-    }
+//    }
 }

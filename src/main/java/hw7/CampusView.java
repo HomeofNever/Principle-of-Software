@@ -32,7 +32,7 @@ public class CampusView {
                             Building to = ls.get(i).getTo();
                             String name = to.isIntersection() ? "Intersection " + to.getId() : to.getName();
                             result.append("\t").append("Walk ").append(
-                                    calculateDirection(from, to)
+                                    from.calculateDirection(to)
                             ).append(" to (").append(name).append(")\n");
                         }
                     }
@@ -64,27 +64,5 @@ public class CampusView {
             .append("m prints a menu of all commands. (This Message)\n");
 
         return b;
-    }
-
-    // North, NorthEast, East, SouthEast, South, SouthWest, West, and NorthWest.
-    private String calculateDirection(Building a, Building b) {
-        Double angle = a.calculateAngle(b);
-        if (22.5 <= angle && angle < 67.5) {
-            return "NorthEast";
-        } else if (67.5 < angle && angle <= 112.5) {
-            return "East";
-        } else if (112.5 < angle && angle <= 157.5) {
-            return "SouthEast";
-        } else if (157.5 < angle && angle <= 202.5) {
-            return "South";
-        } else if (202.5 < angle && angle <= 247.5) {
-            return "SouthWest";
-        } else if (247.5 < angle && angle <= 292.5) {
-            return "West";
-        } else if (292.5 < angle && angle <= 337.5){
-            return "NorthWest";
-        } else {
-            return "North";
-        }
     }
 }

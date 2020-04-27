@@ -47,7 +47,7 @@ public class CampusParser {
         }
     }
 
-    public static void main(String[] arg) throws IOException {
+//    public static void main(String[] arg) throws IOException {
 //        String  edgeFile =  "data/RPI_map_data_Edges.csv";
 //        String buildingFile = "data/RPI_map_data_Nodes.csv";
 //
@@ -60,5 +60,5 @@ public class CampusParser {
 //        System.out.println("Number of Connections: " + m.size());
 //        System.out.println(b);
 //        System.out.println(m);
-    }
+//    }
 }
