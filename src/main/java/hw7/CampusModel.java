@@ -76,11 +76,13 @@ public class CampusModel {
     }
 
     public Building findBuildingByName(String name) {
-            return nameMap.get(name);
+            Building b = nameMap.get(name);
+            return b.isIntersection() ? null : b;
     }
 
     public Building findBuildingById(Integer id) {
-        return idMap.get(id);
+        Building b = idMap.get(id);
+        return b.isIntersection() ? null : b;
     }
 
     public Set<Building> buildingSet() {

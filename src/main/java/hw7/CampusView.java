@@ -36,7 +36,7 @@ public class CampusView {
                             ).append(" to (").append(name).append(")\n");
                         }
                     }
-                    result.append(String.format("Total distance: %.3f pixel units\n", totalCost));
+                    result.append(String.format("Total distance: %.3f pixel units.\n", totalCost));
                 } else {
                     result.append("There is no path from ").append(node1.getName()).append(" to ").append(node2.getName()).append(".\n");
                 }
