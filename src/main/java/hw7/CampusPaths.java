@@ -1,7 +1,5 @@
 package hw7;
 
-import java.util.Scanner;
-
 public class CampusPaths {
 
     public static void main(String[] args) {

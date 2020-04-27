@@ -35,6 +35,49 @@ public class Building implements Comparable<Building>{
         return name.equals("");
     }
 
+    public Double calculateDistance(Building b) {
+        return Math.sqrt(
+                        Math.pow(getX_coordinate() - b.getX_coordinate(), 2.0) +
+                        Math.pow(getY_coordinate() - b.getY_coordinate(), 2.0)
+                );
+    }
+
+    // Calculate the phase, from North, the target will be in
+    public Integer calculatePhase(Building b) {
+        if (getX_coordinate() <= b.getX_coordinate() && getY_coordinate() <= b.getY_coordinate()) {
+            return 4;
+        } else if (getX_coordinate() >= b.getX_coordinate() && getY_coordinate() <= b.getY_coordinate()) {
+            return 3;
+        } else if (getX_coordinate() >= b.getX_coordinate() && getY_coordinate() >= b.getY_coordinate()) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+
+    public Double calculateAngle(Building b) {
+        double angle = Math.toDegrees(
+                                            Math.atan2(
+                                                    Math.abs(getX_coordinate() - b.getX_coordinate()),
+                                                    Math.abs(getY_coordinate() - b.getY_coordinate())
+                                            ));
+        int phase = calculatePhase(b);
+        switch(phase) {
+            case 2:
+                angle = 360 - angle;
+                break;
+            case 3:
+                angle = 180 + angle;
+                break;
+            case 4:
+                angle = 180 - angle;
+                break;
+            default:
+        }
+
+        return angle;
+    }
+
     @Override
     public int compareTo(Building building) {
         int name = getName().compareTo(building.getName());

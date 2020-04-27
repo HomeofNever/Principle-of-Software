@@ -43,9 +43,7 @@ public class CampusModel {
             for (Map.Entry<Integer, Integer> i : connections) {
                 Building a = idMap.get(i.getKey());
                 Building b = idMap.get(i.getValue());
-                Double distance = Math.sqrt(
-                        Math.pow(a.getX_coordinate() - b.getX_coordinate(), 2.0) +
-                        Math.pow(a.getY_coordinate() - b.getY_coordinate(), 2.0));
+                Double distance = a.calculateDistance(b);
                 g.connect(a, b, distance);
                 g.connect(b, a, distance);
             }
