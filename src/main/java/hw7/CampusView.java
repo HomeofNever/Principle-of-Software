@@ -8,19 +8,23 @@ import java.util.Set;
 
 public class CampusView {
 
-    public void printBuilding(Set<Building> m) {
+    public StringBuilder optionListBuildings(Set<Building> m) {
+        StringBuilder result = new StringBuilder();
         for(Building b : m) {
-            System.out.println(b.getName() + "," + b.getId());
+            if (!b.isIntersection())
+                result.append(b.getName()).append( ",").append(b.getId()).append("\n");
         }
+
+        return result;
     }
 
-    public void printPath(Map<Building, List<Edge<Building, Double>>> minPaths, int r, Building node1, Building node2) {
+    public StringBuilder printPath(Map<Building, List<Edge<Building, Double>>> minPaths, int r, Building node1, Building node2) {
         StringBuilder result = new StringBuilder();
         if (r == 0) {
                 Double totalCost = 0.0;
                 // Format Result
                 if (minPaths.get(node2) != null) {
-                    result.append("Path from ").append(node1.getName()).append(" to ").append(node2.getName()).append(":");
+                    result.append("Path from ").append(node1.getName()).append(" to ").append(node2.getName()).append(":\n");
                     if (!node1.equals(node2)) {
                         List<Edge<Building, Double>> ls = minPaths.get(node2);
                         totalCost = ls.get(ls.size() - 1).getName();
@@ -32,30 +36,31 @@ public class CampusView {
                     }
                     result.append(String.format("Total distance: %.3f pixel units\n", totalCost));
                 } else {
-                    result.append("There is no path from ").append(node1.getName()).append(" to ").append(node2.getName()).append(".");
+                    result.append("There is no path from ").append(node1.getName()).append(" to ").append(node2.getName()).append(".\n");
                 }
         } else {
             if (r == 4 || r ==1 || r == 3) {
-                result.append("Unknown building: ").append(node1.getName()).append("\n");
+                result.append("Unknown building: [").append(node1.getName()).append("]\n");
             }
             if (r == 3 || r == 2) {
-                result.append("Unknown building: ").append(node2.getName()).append("\n");
+                result.append("Unknown building: [").append(node2.getName()).append("]\n");
             }
         }
 
-        System.out.println(result.toString());
+        return result;
     }
 
-    public void printUnknown() {
-        System.out.println("Unknown option");
+    public StringBuilder  optionUnknown() {
+        return new StringBuilder().append("Unknown option\n");
     }
 
-    public void printCommands() {
-        System.out.println(
-                "b lists all buildings (only buildings) in the form name,id in lexicographic (alphabetical) order of name.\n" +
-                "r prompts the user for the ids or names of two buildings (only buildings!) and prints directions for the shortest route between them.\n" +
-                "q quits the program.\n" +
-                "m prints a menu of all commands. (This Message)"
-        );
+    public StringBuilder optionListCommands() {
+        StringBuilder b = new StringBuilder();
+        b.append("b lists all buildings (only buildings) in the form name,id in lexicographic (alphabetical) order of name.\n")
+            .append("r prompts the user for the ids or names of two buildings (only buildings!) and prints directions for the shortest route between them.\n")
+            .append("q quits the program.\n")
+            .append("m prints a menu of all commands. (This Message)\n");
+
+        return b;
     }
 }

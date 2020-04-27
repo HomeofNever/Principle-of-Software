@@ -64,7 +64,7 @@ public class CampusModel {
      * if there is no path between these two character, null will be returned
      */
     public Map<Building, List<Edge<Building, Double>>> findPath(Building node1, Building node2) {
-        Map<Building, List<Edge<Building, Double>>> result = null;
+        Map<Building, List<Edge<Building, Double>>> result = new HashMap<>();
 
         if (p.checkNode(node1, node2) == 0) {
             result = p.findDijkstra(node1, node2);
@@ -77,17 +77,15 @@ public class CampusModel {
         return p.checkNode(a, b);
     }
 
-    public Building findBuilding(String name) {
-        Building b = idMap.get(Integer.parseInt(name));
-        if (b == null) {
+    public Building findBuildingByName(String name) {
             return nameMap.get(name);
-        }
-        return b;
+    }
+
+    public Building findBuildingById(Integer id) {
+        return idMap.get(id);
     }
 
     public Set<Building> buildingSet() {
-        Set<Building> b = g.getNodes();
-        b.removeIf(Building::isIntersection);
-        return b;
+        return g.getNodes();
     }
 }
