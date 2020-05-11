@@ -1,0 +1,26 @@
+Question 1. (2 points)
+false
+
+Question 2. (2 points)
+false
+
+Question 3. (6 points)
+
+Note that my solution below is very detailed and contains wordy explanations, just to ensure that everything is perfectly clear. On the quiz, it is absolutely fine if students didn't write many or any words and presented only the mathematical notation, so long as it is correct.
+
+a) LI: prod = 1 * 2 * ... * (k - 1) && k <= n + 1.
+   Initially, k = 2 (from "int k = 2;").
+   So, prod = 1 (from the LI and k = 2) and we know that prod = 1 (from "int prod = 1;").
+   k = 2 and n > 0 (from the precondition), so n >= 1 (since n is an integer). So, n + 1 >= 2 = k <=> k <= n + 1. Thus, we proved that both parts of the LI hold before the 1st iteration.
+
+b) induction:
+   assume: at mth iteration LI is true, so:
+   prod_m = 1 * 2 * ... * (k_m - 1) and k_m <= n + 1 (this is our inductive hypothesis)
+
+   The at (m+1)st iteration, k_(m+1) = k_m + 1 => k_m = k_(m+1) - 1
+   prod_(m+1) = prod_m * k_m = 1 * 2 * ... * (k_m - 1) * k_m = 1 * 2 * ... * (k_(m+1) - 1 - 1) * (k_(m+1) - 1) = 1 * 2 * ... * (k_(m+1) - 2) * (k_(m+1) - 1) = 1 * 2 * ... * (k_(m+1) - 1) so, the prod part of the LI is true at (m+1)st iteration.
+   k_m <= n + 1 (from the inductive hypothesis) but if k_m was equal to n + 1, we would have exited the loop. Since we assume that we did enter the next iteration, (m+1)st, k_m < n + 1.
+   k_(m+1) = k_m + 1 (from "k = k + 1;") <=> k_m = k_(m+1) - 1. Since k_m < n + 1, k_(m+1) - 1 < n + 1, k_(m+1) < n + 1 + 1 = n + 2, and since n is an integer, k_(m+1) < n + 2 <=> k_(m+1) <= n + 1, so the second part of the LI is true.
+
+c) We must show that loop exit condition && LI imply the postcondition, i.e., that [(!(k <= n)) && (prod = 1 * 2 * ... * (k - 1)) && (k <= n + 1)] => [prod = 1 * 2 * ... * n]:
+   [(!(k <= n)) && (prod = 1 * 2 * ... * (k - 1)) && (k <= n + 1)] = [(k > n) && (prod = 1 * 2 * ... * (k - 1)) && (k <= n + 1)] = [(k >= n + 1) && (prod = 1 * 2 * ... * (k - 1)) && (k <= n + 1)] (since n is an integer) = [(k = n + 1) && (prod = 1 * 2 * ... * (k - 1))] => [prod = 1 * 2 * ... * (n + 1 - 1)] = [prod = 1 * 2 * ... * n], Q.E.D.

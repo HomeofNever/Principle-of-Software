@@ -1,0 +1,30 @@
+Question 1. (6 points)
+
+Dangerous rep exposure:
+Foo f1 = new Foo("Hello world!"); // f1 would contain "hello world!" inside its bar field
+f1.getAsList().get(0).setVal("Farewell World!"); // f1 would now contain "Farewell World!" inside its bar field
+
+This is a dangerous rep exposure because a client can get access to a Bar object and change its state (since Bar is mutable) in a way that would violate Foo's rep. invariant. More specifically, Foo is trying to ensure that the String object inside bar is all lower case. This can be broken by exploiting the rep exposure.
+
+Note that Bar is never specified to be immutable. It is mutable, and it is meant to be such.
+
+Some examples of common mistakes:
+* f.getSelf().s.replace('0'); - Foo does not directly expose neither bar, nor the String inside the Bar object, so ".s" is not possible. Furthermore, s is a String which is immutable, so replace() would not alter the receiver object.
+* List<Bar> b = f.getAsList(); b[0].getVal() += "Hello"; - getVal() returns a String object, not an l-value, so no assignment is possible; we cannot exploit the rep exposure through getVal().
+* List<Bar> b = f.getAsList(); b[0] = null; (or b[0] = new Bar("Hello"); or similar) - while b does contain an exposed Bar object, any manipulations with b itself are not dangerous because this list is not part of the Foo's representation data. The danger of b is the fact that it allows the client to access the Bar object and change its state since Bar is mutable.
+
+Some examples of rep exposure which is not dangerous: the String returned by getVal() or a String taken by setVal().
+
+Examples of code snippets which do not demonstrate any kind of rep exposure:
+* f.getSelf(); - returns a reference to the receiver object, not any part of its representation
+* f.getSelf().setVal("Hello"); - getSelf() returns Foo which does not expose a setVal() method
+* f.getSelf().bar = null; - bar is a private field of Foo, so external code does not have access to it
+* Foo.count() - returns a copy of the primitive value, so it can never be dangerous, and we do not classify it as a rep exposure
+* Foo f1 = new Foo("f1");  Foo f2 = new Foo(f1); - this is a case of sharing the representation data or aliasing on the Bar object. It might not be a good thing, but by itself there is no rep exposure here. The client does not pass in a Bar object, so it cannot use it to bypass Foo's public interface.
+
+
+Question 2. (2 points)
+(a) true
+
+Question 3. (2 points)
+(b) false

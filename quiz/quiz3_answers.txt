@@ -1,0 +1,38 @@
+Question 1. (4 points)
+Impl. 1: A
+For any arg, if arg < 0, abs(arg) == -arg, i.e., abs(arg) >= arg; and if arg >=0 then abs(arg) == arg >= arg, so spec. A is satisfied
+If arg == 0, abs(arg) == 0 which is not a non-zero integer, so B is not satisfied
+If arg == 2, abs(2) == 2 which is not -2^3, so C is not satisfied
+If arg == 2, abs(2) == 2 which is not 2^3, so D is not satisfied
+
+Impl. 2: None
+If arg == -1, arg * 2 == -2, i.e., -2 is not >= arg, so A is not satisfied
+If arg == 0, arg * 2 == 0 which is not a non-zero integer, so B is not satisfied
+If arg == 2, arg * 2 == 4 which is not -2^3, so C is not satisfied
+If arg == 2, arg * 2 == 4 which is not 2^3, so D is not satisfied
+
+Impl. 3: A
+For any arg, if arg < 0, abs(arg * arg * arg) == abs((-1) * (-arg)^3) == (-arg)^3 >= 0, i.e., abs(arg * arg * arg) >= arg; and if arg >=0 then abs(arg * arg * arg) == arg^3 >= arg, so spec. A is satisfied
+If arg == 0, abs(arg * arg * arg) == 0 which is not a non-zero integer, so B is not satisfied
+If arg == 2, abs(arg * arg * arg) == abs(2 * 2 * 2) == 8 which is not -2^3 == -8, so C is not satisfied
+If arg == -2, abs(arg * arg * arg) == abs((-2) * (-2) * (-2)) == abs(-8) == 8 which is not (-2)^3 == -8, so D is not satisfied
+
+Question 2. (2 points)
+(c)
+B requires less but also promises less than A; or
+the precondition of B is weaker than the precondition of A, but the postcondition of B is also weaker than the postcondition of A; or
+PA => PB && QA => QB; or
+B is not stronger than A because not every implementation I that satisfies B would also satisfy A. E.g., an implementation that returns 10 would satisfy B but not A. A is not stronger than B because not every client C that meets the obligations of B would also meet the obligations of A. E.g., a client that supplies arg==0 would satisfy the obligations of B but not A.
+
+Question 3. (2 points)
+(b)
+B requires less and promises more than A; or
+the precondition of B is weaker than the precondition of A, and the postcondition of B is stronger than the postcondition of A; or
+PA => PB && QB => QA; or
+Every implementation I that satisfies B would also satisfy A and every client C that meets the obligations of A would also meet the obligations of B.
+
+Note that Double.NaN > 0 is false and Double.NaN < 0 is also false. So, Spec. A's precondition does not allow arg to be Double.NaN. At the same time, Double.POSITIVE_INFINITY > 0 and log(Double.POSITIVE_INFINITY) is Double.POSITIVE_INFINITY.
+
+
+Question 4. (2 points)
+(d)
